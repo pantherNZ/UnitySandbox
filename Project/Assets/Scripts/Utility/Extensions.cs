@@ -15,7 +15,8 @@ public static partial class Extensions
     public static void DestroyAll( this List<GameObject> objects )
     {
         foreach( var x in objects )
-            x?.Destroy();
+            if( x != null )
+                x.Destroy();
         objects.Clear();
     }
 
@@ -334,5 +335,96 @@ public static partial class Extensions
     static public bool Contains( this Rect rect, Bounds other )
     {
         return rect.Contains( other.ToRect() );
+    }
+
+    static public Vector3 UnrotateVector( this Quaternion quat, Vector3 v )
+    {
+        return Matrix4x4.Rotate( quat ).transpose.MultiplyVector( v );
+    }
+    static public Vector3 RotateVector( this Quaternion quat, Vector3 v )
+    {
+        return Matrix4x4.Rotate( quat ).MultiplyVector( v );
+    }
+
+    static public Vector3 GetScaledAxis( this Matrix4x4 mat, EAxis InAxis )
+    {
+	    switch (InAxis )
+	    {
+	    case EAxis.X:
+		    return new Vector3( mat[0,0], mat[0,1], mat[0,2]);
+
+	    case EAxis.Y:
+		    return new Vector3( mat[1,0], mat[1,1], mat[1,2]);
+
+            case EAxis.Z:
+		    return new Vector3( mat[2,0], mat[2,1], mat[2,2]);
+
+	    default:
+            Debug.LogError( "GetScaledAxis: Invalid axis" );
+            return Vector3.zero;
+	    }
+    }
+
+    static public void GetScaledAxes( this Matrix4x4 mat, out Vector3 X, out Vector3 Y, out Vector3 Z)
+     {
+        X = new Vector3( mat[0, 0], mat[0, 1], mat[0, 2] );
+        Y = new Vector3( mat[1, 0], mat[1, 1], mat[1, 2] );
+        Z = new Vector3( mat[2, 0], mat[2, 1], mat[2, 2] );
+    }
+
+    static public Vector3 GetUnitAxis( this Matrix4x4 mat, EAxis InAxis )
+    {
+	    return mat.GetScaledAxis( InAxis ).normalized;
+    }
+
+    static public void GetUnitAxes( this Matrix4x4 mat, Vector3 x, Vector3 y, Vector3 z )
+     {
+        mat.GetScaledAxes( out x, out y, out z );
+        x.Normalize();
+        y.Normalize();
+        z.Normalize();
+    }
+
+    static public void SetAxis( this Matrix4x4 mat, int i, Vector3 axis )
+    {
+        //checkSlow( i >= 0 && i <= 2 );
+        mat[i,0] = axis.x;
+        mat[i,1] = axis.y;
+        mat[i,2] = axis.z;
+    }
+
+    static public void SetOrigin( this Matrix4x4 mat, Vector3 newOrigin )
+    {
+        mat[3,0] = newOrigin.x;
+        mat[3,1] = newOrigin.y;
+        mat[3,2] = newOrigin.z;
+    }
+
+    static public void SetAxes( this Matrix4x4 mat, Vector3? axis0 = null, Vector3? axis1 = null, Vector3? axis2 = null, Vector3? origin = null)
+    {
+        if( axis0 != null )
+        {
+            mat[0,0] = axis0.Value.x;
+            mat[0,1] = axis0.Value.y;
+            mat[0,2] = axis0.Value.z;
+        }
+        if( axis1 != null )
+        {
+            mat[1,0] = axis1.Value.x;
+            mat[1,1] = axis1.Value.y;
+            mat[1,2] = axis1.Value.z;
+        }
+        if( axis2 != null ) 
+        {
+            mat[2,0] = axis2.Value.x;
+            mat[2,1] = axis2.Value.y;
+            mat[2,2] = axis2.Value.z;
+        }
+        if( origin != null )
+        {
+            mat[3,0] = origin.Value.x;
+            mat[3,1] = origin.Value.y;
+            mat[3,2] = origin.Value.z;
+        }
     }
 }

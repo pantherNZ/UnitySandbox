@@ -114,7 +114,7 @@ public static partial class Utility
 
     public static void DrawCircle( Vector3 position, float diameter, float lineWidth, Color? colour = null )
     {
-        colour = colour ?? new Color( 1.0f, 1.0f, 1.0f, 1.0f );
+        colour ??= new Color( 1.0f, 1.0f, 1.0f, 1.0f );
         var newObj = new GameObject();
         newObj.transform.position = position;
 
@@ -142,7 +142,7 @@ public static partial class Utility
 
     public static void DrawRect( Rect rect, Color? colour = null )
     {
-        colour = colour ?? new Color( 1.0f, 1.0f, 1.0f, 1.0f );
+        colour ??= new Color( 1.0f, 1.0f, 1.0f, 1.0f );
         Debug.DrawLine( rect.TopLeft(), rect.TopRight(), colour.Value );
         Debug.DrawLine( rect.TopRight(), rect.BottomRight(), colour.Value );
         Debug.DrawLine( rect.BottomRight(), rect.BottomLeft(), colour.Value );
@@ -257,8 +257,8 @@ public class Pair<T, U>
 
     public static bool operator ==( Pair<T, U> lhs, Pair<T, U> rhs )
     {
-        if( System.Object.ReferenceEquals( lhs, null ) )
-            return System.Object.ReferenceEquals( rhs, null );
+        if( ReferenceEquals( lhs, null ) )
+            return ReferenceEquals( rhs, null );
         return lhs.Equals( rhs );
     }
 
@@ -269,16 +269,16 @@ public class Pair<T, U>
 
     public override bool Equals( object obj )
     {
-        if( System.Object.ReferenceEquals( obj, null ) )
+        if( ReferenceEquals( obj, null ) )
             return false;
 
         var rhs = obj as Pair<T, U>;
-        return !System.Object.ReferenceEquals( rhs, null ) && Equals( rhs );
+        return !ReferenceEquals( rhs, null ) && Equals( rhs );
     }
 
     public bool Equals( Pair<T, U> obj )
     {
-        if( System.Object.ReferenceEquals( obj, null ) )
+        if( ReferenceEquals( obj, null ) )
             return false;
 
         return First.Equals( obj.First ) && Second.Equals( obj.Second );
@@ -297,6 +297,14 @@ public class Pair<T, U>
 
     public T First;
     public U Second;
+}
+
+public enum EAxis
+{
+    X,
+    Y,
+    Z,
+    None,
 }
 
 #if UNITY_EDITOR

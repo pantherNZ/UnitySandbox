@@ -14,7 +14,8 @@ public static partial class Utility
             yield return null;
         }
 
-        group?.SetVisibility( false );
+        if (group != null)
+            group.SetVisibility( false );
     }
 
     public static void FadeToBlack( this MonoBehaviour mono, float fadeDurationSec )
@@ -30,7 +31,8 @@ public static partial class Utility
             yield return null;
         }
 
-        group?.SetVisibility( true );
+        if( group != null )
+            group.SetVisibility( true );
     }
 
     public static void FadeFromBlack( this MonoBehaviour mono, float fadeDurationSec )
