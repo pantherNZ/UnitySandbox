@@ -19,12 +19,6 @@ public class PhysTool : IBasePlayerTool
 	private Vector3 targetLocationOffset;
 	private Vector3 targetRotationOffset;
 	private Vector3 rotationOffset;
-    private FPSController playerController;
-
-    private void Start()
-    {
-        playerController = GetComponentInParent<FPSController>();
-    }
      
     public override void OnEnabledChanged( bool enabled ) 
     {
@@ -41,18 +35,16 @@ public class PhysTool : IBasePlayerTool
         }
         else if( pressed && !target )
         {
-            Debug.Log( "Fire" );
-            Vector3 mouse = Camera.main.ScreenToWorldPoint( UnityEngine.InputSystem.Mouse.current.position.ReadValue() );
-            var direction = ( mouse - transform.position );
-            var result = Physics.Raycast( transform.position, direction, out var hitInfo, 50.0f, LayerMask.GetMask( "Object" ) );
-            Debug.DrawRay( transform.position, direction, Color.blue );
+            var result = playerController.Raycast( out var hitInfo );
+            Debug.Log( "Fire: " + result + " " + ( hitInfo.rigidbody ? hitInfo.rigidbody.gameObject.name : "" ) );
 
-            if( result && hitInfo.rigidbody && hitInfo.rigidbody.isKinematic )
+            if( result && hitInfo.rigidbody )
             {
                 Debug.Log( "Hit: " + hitInfo.rigidbody.gameObject.name );
                 target = hitInfo.rigidbody.gameObject;
-                target.GetComponent<Rigidbody>().isKinematic = false;
-                targetDistance = ( target.transform.position - playerController.transform.position ).magnitude;
+                hitInfo.rigidbody.isKinematic = true;
+                targetDistance = ( hitInfo.point - playerController.GetFPSCamera().transform.position ).magnitude;
+                targetLocationOffset = Vector3.zero;
                 targetLocationOffset = Quaternion.Euler( playerController.GetLookRotation() ).UnrotateVector( target.transform.position - GetTargetLockLocation() );
                 targetRotationOffset = target.transform.rotation.eulerAngles - playerController.transform.rotation.eulerAngles;
             }
@@ -91,17 +83,9 @@ public class PhysTool : IBasePlayerTool
     {
         if( rotatingTarget && target )
         {
-            // const auto rotation = ( TargetActor->GetActorLocation() - Player->GetActorLocation() ).Rotation();
-            // FVector x, y, z;
-            // UKismetMathLibrary::GetAxes( rotation, x, y, z );
-            // const auto target_rotation = FQuat( z, Rate * ObjectRotateSpeedYaw ) * ( Player->GetActorRotation() + targetRotationOffset ).Quaternion();
-            // targetRotationOffset = target_rotation.Rotator() - Player->GetActorRotation();
-            //
-            // const auto rotation = ( TargetActor->GetActorLocation() - Player->GetActorLocation() ).Rotation();
-            // FVector x, y, z;
-            // UKismetMathLibrary::GetAxes( rotation, x, y, z );
-            // const auto target_rotation = FQuat( y, -Rate * ObjectRotateSpeedPitch ) * ( Player->GetActorRotation() + targetRotationOffset ).Quaternion();
-            // targetRotationOffset = target_rotation.Rotator() - Player->GetActorRotation();
+            var direction = Quaternion.Euler( playerController.GetLookRotation() ) * Vector3.forward; 
+            var targetRotation = Quaternion.AngleAxis( axis.x * objectRotateSpeedYaw * Time.deltaTime, playerController.GetFPSCamera().transform.up ) * Quaternion.Euler( target.transform.rotation.eulerAngles + targetRotationOffset );
+            targetRotationOffset = targetRotation.eulerAngles - playerController.transform.rotation.eulerAngles;
             return true;
         }
 
@@ -133,8 +117,8 @@ public class PhysTool : IBasePlayerTool
 
 	Vector3 GetTargetLockLocation()
 	{
-        var direction = Matrix4x4.Rotate( Quaternion.Euler( playerController.GetLookRotation() ) ).GetUnitAxis( EAxis.X );
-        var targetLoc = playerController.transform.position + direction * targetDistance + Quaternion.Euler( playerController.GetLookRotation() ).RotateVector( targetLocationOffset );
+        var direction = Quaternion.Euler( playerController.GetLookRotation() ) * Vector3.forward;
+        var targetLoc = playerController.GetFPSCamera().transform.position + direction * targetDistance + Quaternion.Euler( playerController.GetLookRotation() ).RotateVector( targetLocationOffset );
         return targetLoc;
     }
 
@@ -156,7 +140,7 @@ public class PhysTool : IBasePlayerTool
 	{
         if( target )
         {
-            // UUtilityLibrary::CustomLog( FString( TEXT( "Target Released" ) ) );
+            Debug.Log( "Target Released" );
             target.GetComponent<Rigidbody>().isKinematic = false;
             target = null;
         }

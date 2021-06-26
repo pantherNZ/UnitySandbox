@@ -427,4 +427,9 @@ public static partial class Extensions
             mat[3,2] = origin.Value.z;
         }
     }
+
+    static public Vector3 Rotation( this Vector3 vec )
+    {
+        return new Vector3( Mathf.Atan2( vec.y, vec.x ), Mathf.Atan2( vec.z, vec.ToVector2().magnitude ), 0.0f );
+    }
 }

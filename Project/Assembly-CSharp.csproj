@@ -57,12 +57,15 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Samples\Input System\1.0.2\Simple Demo\SimpleController_UsingActions.cs" />
-    <Compile Include="Assets\Scripts\BasePlayerTool.cs" />
-    <Compile Include="Assets\Scripts\PhysTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\DeleteTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\PhysTool.cs" />
+    <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\SandboxObject.cs" />
     <Compile Include="Assets\Scripts\UndoRedoSystem.cs" />
     <Compile Include="Assets\Scripts\Utility\SyncSolutionUtilities.cs" />
     <Compile Include="Assets\Scripts\Utility\SecureHash.cs" />
+    <Compile Include="Assets\Scripts\Tools\WeldTool.cs" />
     <Compile Include="Assets\Scripts\WorldButton.cs" />
     <Compile Include="Assets\Scripts\Utility\Bezier.cs" />
     <Compile Include="Assets\Scripts\Utility\DebugLogToScreen.cs" />
@@ -70,14 +73,10 @@
     <Compile Include="Assets\Scripts\FPSController.cs" />
     <Compile Include="Assets\Scripts\Utility\xxHash.cs" />
     <Compile Include="Assets\Scripts\Utility\Extensions.cs" />
-    <Compile Include="Assets\Samples\Input System\1.0.2\Simple Demo\SimpleControls.cs" />
     <Compile Include="Assets\Scripts\Utility\UtilityCoroutines.cs" />
-    <Compile Include="Assets\Samples\Input System\1.0.2\Simple Demo\SimpleController_UsingActionAsset.cs" />
     <Compile Include="Assets\Scripts\Utility\Quad.cs" />
-    <Compile Include="Assets\Samples\Input System\1.0.2\Simple Demo\SimpleController_UsingPlayerInput.cs" />
     <Compile Include="Assets\Scripts\Utility\FunctionTimer.cs" />
     <Compile Include="Assets\Scripts\Utility\Utility.cs" />
-    <Compile Include="Assets\Samples\Input System\1.0.2\Simple Demo\SimpleController_UsingState.cs" />
     <Compile Include="Assets\Scripts\Utility\EventDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>

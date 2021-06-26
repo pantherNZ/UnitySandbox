@@ -3,27 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using System;
 
-public class FPSController : MonoBehaviour
+public class FPSController : MonoBehaviour, PlayerInput.IPlayerActions
 {
     [SerializeField]
     private float moveSpeed = 10.0f;
     [SerializeField]
     private float rotateSpeed = 60.0f;
+    [SerializeField]
+    private float raycastLength = 50.0f;
 
+    private @PlayerInput input;
     private Camera fpsCamera;
     private Vector2 moveVector;
     private Vector2 lookVector;
     private Vector2 rotation;
     private List<IBasePlayerTool> tools;
     private int currentTool;
+    private Int32 playerId;
 
     private void Start()
     {
+        tools = GetComponentsInChildren<IBasePlayerTool>().ToList();
+        input = new PlayerInput();
+        input.Player.SetCallbacks( this );
+        input.Player.Enable();
         fpsCamera = GetComponentInChildren<Camera>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        tools = GetComponentsInChildren<IBasePlayerTool>().ToList();
     }
 
     public IBasePlayerTool GetCurrentTool()
@@ -31,45 +39,60 @@ public class FPSController : MonoBehaviour
         return tools[currentTool];
     }
 
-    public void OnMove( InputValue value )
+    public void OnMove( InputAction.CallbackContext context )
     {
-        moveVector = value.Get<Vector2>();
+        moveVector = context.ReadValue<Vector2>();
     }
 
-    public void OnLook( InputValue value )
+    public void OnLook( InputAction.CallbackContext context )
     {
         if( !GetCurrentTool().OnLook( lookVector ) )
-            lookVector = value.Get<Vector2>();
+            lookVector = context.ReadValue<Vector2>();
     }
 
-    public void OnFire( InputValue value )
+    public void OnFire( InputAction.CallbackContext context )
     {
-        GetCurrentTool().OnMouse1( value.isPressed );
+        if( context.started )
+            GetCurrentTool().OnMouse1( true );
+        else if( context.canceled )
+            GetCurrentTool().OnMouse1( false );
     }
 
-    public void OnAltFire( InputValue value )
+    public void OnAltFire( InputAction.CallbackContext context )
     {
-        GetCurrentTool().OnMouse2( value.isPressed );
+        if( context.started )
+            GetCurrentTool().OnMouse2( true );
+        else if( context.canceled )
+            GetCurrentTool().OnMouse2( false );
     }
 
-    public void OnSpecialAction( InputValue value )
+    public void OnSpecialAction( InputAction.CallbackContext context )
     {
-        GetCurrentTool().OnSpecialAction( value.isPressed );
+        if( context.started )
+            GetCurrentTool().OnSpecialAction( true );
+        else if( context.canceled )
+            GetCurrentTool().OnSpecialAction( false );
     }
 
-    public void OnSpecialActionAlt( InputValue value )
+    public void OnSpecialActionAlt( InputAction.CallbackContext context )
     {
-        GetCurrentTool().OnSpecialAction( value.isPressed );
+        if( context.started )
+            GetCurrentTool().OnSpecialActionAlt( true );
+        else if( context.canceled )
+            GetCurrentTool().OnSpecialActionAlt( false );
     }
 
-    public void OnMouseWheel( InputValue value )
+    public void OnMouseWheel( InputAction.CallbackContext context )
     {
-        GetCurrentTool().OnMouseWheel( value.isPressed );
+        if( context.started )
+            GetCurrentTool().OnMouseWheel( true );
+        else if( context.canceled )
+            GetCurrentTool().OnMouseWheel( false );
     }
 
-    public void OnMouseWheelScroll( InputValue value )
+    public void OnMouseWheelScroll( InputAction.CallbackContext context )
     {
-        var v = value.Get<float>();
+        var v = context.ReadValue<float>();
         if( !GetCurrentTool().OnMouseWheelScroll( v ) )
         {
             var diff = ( int )Mathf.Sign( v );
@@ -77,25 +100,26 @@ public class FPSController : MonoBehaviour
         }
     }
 
-    public void OnShowPauseMenu( InputValue value )
+    public void OnShowPauseMenu( InputAction.CallbackContext context )
     {
-        Application.Quit();
+        if( context.performed )
+            Application.Quit();
     }
 
-    public void OnShowToolsMenu( InputValue value )
+    public void OnShowToolsMenu( InputAction.CallbackContext context )
     {
 
     }
 
-    public void OnToolSelections1( InputValue value ) { if( value.isPressed ) SelectTool( 0 ); }
-    public void OnToolSelections2( InputValue value ) { if( value.isPressed ) SelectTool( 1 ); }
-    public void OnToolSelections3( InputValue value ) { if( value.isPressed ) SelectTool( 2 ); }
-    public void OnToolSelections4( InputValue value ) { if( value.isPressed ) SelectTool( 3 ); }
-    public void OnToolSelections5( InputValue value ) { if( value.isPressed ) SelectTool( 4 ); }
-    public void OnToolSelections6( InputValue value ) { if( value.isPressed ) SelectTool( 5 ); }
-    public void OnToolSelections7( InputValue value ) { if( value.isPressed ) SelectTool( 6 ); }
-    public void OnToolSelections8( InputValue value ) { if( value.isPressed ) SelectTool( 7 ); }
-    public void OnToolSelections9( InputValue value ) { if( value.isPressed ) SelectTool( 8 ); }
+    public void OnToolSelections1( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 0 ); }
+    public void OnToolSelections2( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 1 ); }
+    public void OnToolSelections3( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 2 ); }
+    public void OnToolSelections4( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 3 ); }
+    public void OnToolSelections5( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 4 ); }
+    public void OnToolSelections6( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 5 ); }
+    public void OnToolSelections7( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 6 ); }
+    public void OnToolSelections8( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 7 ); }
+    public void OnToolSelections9( InputAction.CallbackContext context ) { if( context.started ) SelectTool( 8 ); }
 
     private void SelectTool( int index )
     {
@@ -108,7 +132,7 @@ public class FPSController : MonoBehaviour
         }
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         // Update orientation first, then move. Otherwise move orientation will lag
         // behind by one frame.
@@ -120,7 +144,7 @@ public class FPSController : MonoBehaviour
     {
         if (direction.sqrMagnitude < 0.01)
             return;
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+        var scaledMoveSpeed = moveSpeed * Time.fixedDeltaTime;
         // For simplicity's sake, we just keep movement in a single plane here. Rotate
         // direction according to world Y rotation of player.
         var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
@@ -131,7 +155,7 @@ public class FPSController : MonoBehaviour
     {
         if (rotate.sqrMagnitude < 0.01)
             return;
-        var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
+        var scaledRotateSpeed = rotateSpeed * Time.fixedDeltaTime;
         rotation.y += rotate.x * scaledRotateSpeed;
         rotation.x = Mathf.Clamp(rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
         fpsCamera.transform.localEulerAngles = rotation.SetY( 0.0f );
@@ -141,5 +165,27 @@ public class FPSController : MonoBehaviour
     public Vector3 GetLookRotation()
     {
         return transform.localEulerAngles.SetX( fpsCamera.transform.localEulerAngles.x );
+    }
+
+    public Camera GetFPSCamera()
+    {
+        return fpsCamera;
+    }
+
+    public bool Raycast( out RaycastHit hitInfo )
+    {
+        var origin = fpsCamera.transform.position;
+        var direction = fpsCamera.transform.forward;
+        var result = Physics.Raycast( origin, direction, out hitInfo, raycastLength, LayerMask.GetMask( "Default" ) );
+        Debug.DrawLine( origin, origin + direction * raycastLength, Color.blue, 10.0f );
+        return result;
+    }
+
+    public bool IsValidOwnedObject( GameObject obj )
+    {
+        if( obj == null )
+            return false;
+        var sandboxObj = obj.GetComponent<SandboxObject>();
+        return sandboxObj != null && sandboxObj.ownerId == playerId;
     }
 }

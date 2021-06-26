@@ -13,6 +13,11 @@ public abstract class IBasePlayerTool : MonoBehaviour
     public virtual bool OnSpecialActionAlt( bool pressed ) { return false; }
     // Interface end --
 
+    private void Start()
+    {
+        playerController = GetComponentInParent<FPSController>();
+    }
+
     public void SetEnabled( bool enabled )
     {
         if( enabled != isEnabled )
@@ -28,4 +33,6 @@ public abstract class IBasePlayerTool : MonoBehaviour
 
     [SerializeField]
     protected string toolName;
+
+    protected FPSController playerController;
 }
