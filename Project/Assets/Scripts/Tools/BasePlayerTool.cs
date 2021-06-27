@@ -28,11 +28,15 @@ public abstract class IBasePlayerTool : MonoBehaviour
     }
 
     public string GetName() { return toolName; }
+    public Texture2D GetImage() { return toolDisplayImage; }
 
     protected bool isEnabled;
 
     [SerializeField]
     protected string toolName;
+
+    [SerializeField]
+    protected Texture2D toolDisplayImage;
 
     protected FPSController playerController;
 }

@@ -57,11 +57,15 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\GameEvents.cs" />
+    <Compile Include="Assets\Scripts\PlayerInterface.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Scripts\Tools\DeleteTool.cs" />
     <Compile Include="Assets\Scripts\Tools\PhysTool.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\SandboxObject.cs" />
+    <Compile Include="Assets\Scripts\UI\InvertedMaskImage.cs" />
+    <Compile Include="Assets\Scripts\UI\ToolUIElement.cs" />
     <Compile Include="Assets\Scripts\UndoRedoSystem.cs" />
     <Compile Include="Assets\Scripts\Utility\SyncSolutionUtilities.cs" />
     <Compile Include="Assets\Scripts\Utility\SecureHash.cs" />
@@ -790,6 +794,7 @@
       <Name>PathCreatorEditor</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class DebugLogToScreen : MonoBehaviour
 {
-    string myLog;
-    Queue myLogQueue = new Queue();
+    [SerializeField]
+    private Int32 fontSize = 12;
+
+    private string myLog;
+    private Queue myLogQueue = new Queue();
 
     void OnEnable()
     {
@@ -36,6 +40,8 @@ public class DebugLogToScreen : MonoBehaviour
     void OnGUI()
     {
         GUI.color = Color.black;
-        GUILayout.Label( myLog );
+        var style = new GUIStyle();
+        style.fontSize = fontSize;
+        GUILayout.Label( myLog, style );
     }
 }

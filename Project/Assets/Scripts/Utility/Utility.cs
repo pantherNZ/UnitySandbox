@@ -76,6 +76,9 @@ public static partial class Utility
 
     public static Sprite CreateSprite( Texture2D texture )
     {
+        if( texture == null )
+            return null;
+
         return Sprite.Create( texture, new Rect( 0.0f, 0.0f, texture.width, texture.height ), new Vector2( 0.5f, 0.5f ) );
     }
 
@@ -203,6 +206,11 @@ public static partial class Utility
         obj.transform.position = rect.position;
         obj.transform.localScale = rect.size;
         return obj;
+    }
+
+    public static IEnumerable<Pair<int, T>> Enumerate<T>( this IEnumerable<T> collection, int startIndex = 0 )
+    {
+        foreach( var item in collection ) { yield return new Pair<int, T>( startIndex++, item ); }
     }
 }
 

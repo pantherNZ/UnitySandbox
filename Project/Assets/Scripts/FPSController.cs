@@ -7,6 +7,11 @@ using System;
 
 public class FPSController : MonoBehaviour, PlayerInput.IPlayerActions
 {
+    public const Int32 ToolBarMaxItems = 8;
+
+    public event Action<ToolBoundEventArgs> toolBoundEvent;
+    public event Action<ToolSelectedEventArgs> toolSelectedEvent;
+
     [SerializeField]
     private float moveSpeed = 10.0f;
     [SerializeField]
@@ -14,29 +19,53 @@ public class FPSController : MonoBehaviour, PlayerInput.IPlayerActions
     [SerializeField]
     private float raycastLength = 50.0f;
 
+    private Int32 playerId;
     private @PlayerInput input;
     private Camera fpsCamera;
     private Vector2 moveVector;
     private Vector2 lookVector;
     private Vector2 rotation;
-    private List<IBasePlayerTool> tools;
-    private int currentTool;
-    private Int32 playerId;
+
+    private List<IBasePlayerTool> allTools;
+    private IBasePlayerTool[] boundTools = new IBasePlayerTool[ToolBarMaxItems];
+    private int currentToolIndex;
 
     private void Start()
     {
-        tools = GetComponentsInChildren<IBasePlayerTool>().ToList();
-        input = new PlayerInput();
-        input.Player.SetCallbacks( this );
-        input.Player.Enable();
         fpsCamera = GetComponentInChildren<Camera>();
+
+        InitialiseTools();
+        InitialiseInput();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void InitialiseInput()
+    {
+        input = new PlayerInput();
+        input.Player.SetCallbacks( this );
+        input.Player.Enable();
+    }
+
+    private void InitialiseTools()
+    {
+        allTools = GetComponentsInChildren<IBasePlayerTool>().ToList();
+
+        for( int i = 0; i < ToolBarMaxItems; ++i )
+            BindTool( i < allTools.Count ? allTools[i] : null, i, true);
+    }
+
     public IBasePlayerTool GetCurrentTool()
     {
-        return tools[currentTool];
+        if( currentToolIndex < 0 || currentToolIndex >= boundTools.Length )
+            return null;
+        return boundTools[currentToolIndex];
+    }
+
+    public Int32 GetCurrentToolIndex()
+    {
+        return currentToolIndex;
     }
 
     public void OnMove( InputAction.CallbackContext context )
@@ -96,7 +125,7 @@ public class FPSController : MonoBehaviour, PlayerInput.IPlayerActions
         if( !GetCurrentTool().OnMouseWheelScroll( v ) )
         {
             var diff = ( int )Mathf.Sign( v );
-            currentTool = ( currentTool + diff ) % tools.Count;
+            SelectTool( ( currentToolIndex + diff ) % ToolBarMaxItems );
         }
     }
 
@@ -123,13 +152,44 @@ public class FPSController : MonoBehaviour, PlayerInput.IPlayerActions
 
     private void SelectTool( int index )
     {
-        int newToolIdx = Mathf.Min( index, tools.Count - 1 );
-        if( newToolIdx != currentTool )
+        int newToolIdx = Mathf.Clamp( index, 0, ToolBarMaxItems - 1 );
+        if( newToolIdx != currentToolIndex && boundTools[newToolIdx] != null )
         {
             GetCurrentTool().SetEnabled( false );
-            currentTool = newToolIdx;
+
+            var oldToolIndex = currentToolIndex;
+            currentToolIndex = newToolIdx;
+
             GetCurrentTool().SetEnabled( true );
+            toolSelectedEvent?.Invoke( new ToolSelectedEventArgs() { player = this, oldToolIndex = oldToolIndex, newToolIndex = currentToolIndex } );
+            Debug.Log( String.Format( "Selecting tool {0} at index {1}", GetCurrentTool().GetName(), index ) );
         }
+    }
+
+    public void BindTool( IBasePlayerTool tool, Int32 index, bool forceUpdate = false )
+    {
+        if( index >= ToolBarMaxItems || index < 0 || ( boundTools[index] == tool && !forceUpdate ) )
+            return;
+
+        // Current tool will be null on startup when we bind our first tool
+        if( index == currentToolIndex && GetCurrentTool() != null )
+            GetCurrentTool().SetEnabled( false );
+
+        boundTools[index] = tool;
+        toolBoundEvent?.Invoke( new ToolBoundEventArgs() { player = this, newTool = tool, toolIndex = index } );
+        Debug.Log( String.Format( "Binding tool {0} to index {1}", GetCurrentTool().GetName(), index ) );
+
+        if( index == currentToolIndex )
+        {
+            GetCurrentTool().SetEnabled( true );
+            toolSelectedEvent?.Invoke( new ToolSelectedEventArgs() { player = this, oldToolIndex = index, newToolIndex = index } );
+            Debug.Log( String.Format( "Selecting tool {0} at index {1}", GetCurrentTool().GetName(), index ) );
+        }
+    }
+
+    public IBasePlayerTool[] GetBoundTools()
+    {
+        return boundTools;
     }
 
     public void FixedUpdate()
