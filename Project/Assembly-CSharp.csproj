@@ -58,12 +58,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameEvents.cs" />
+    <Compile Include="Assets\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\PlayerInterface.cs" />
+    <Compile Include="Assets\Scripts\SandboxObjectData.cs" />
+    <Compile Include="Assets\Scripts\SaveGame.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Scripts\Tools\DeleteTool.cs" />
     <Compile Include="Assets\Scripts\Tools\PhysTool.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\SandboxObject.cs" />
+    <Compile Include="Assets\Scripts\UI\ConsoleCommands.cs" />
+    <Compile Include="Assets\Scripts\UI\ConsoleManager.cs" />
     <Compile Include="Assets\Scripts\UI\InvertedMaskImage.cs" />
     <Compile Include="Assets\Scripts\UI\ToolUIElement.cs" />
     <Compile Include="Assets\Scripts\UndoRedoSystem.cs" />
@@ -72,9 +77,8 @@
     <Compile Include="Assets\Scripts\Tools\WeldTool.cs" />
     <Compile Include="Assets\Scripts\WorldButton.cs" />
     <Compile Include="Assets\Scripts\Utility\Bezier.cs" />
-    <Compile Include="Assets\Scripts\Utility\DebugLogToScreen.cs" />
     <Compile Include="Assets\Scripts\Utility\SimplexNoise.cs" />
-    <Compile Include="Assets\Scripts\FPSController.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Utility\xxHash.cs" />
     <Compile Include="Assets\Scripts\Utility\Extensions.cs" />
     <Compile Include="Assets\Scripts\Utility\UtilityCoroutines.cs" />

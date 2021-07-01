@@ -19,6 +19,7 @@ public class PhysTool : IBasePlayerTool
 	private Vector3 targetLocationOffset;
 	private Vector3 targetRotationOffset;
 	private Vector3 rotationOffset;
+	private TransformData startTransform;
      
     public override void OnEnabledChanged( bool enabled ) 
     {
@@ -31,6 +32,23 @@ public class PhysTool : IBasePlayerTool
     {
         if( !pressed && target )
         {
+            var startTransformCopy = startTransform;
+            var currentTransform = new TransformData()
+            {
+                translation = target.transform.position,
+                rotation = target.transform.rotation,
+                scale = target.transform.localScale,
+            };
+            var targ = SandboxObject.ObjectManager.Instance.CreateObject( target, playerController.playerId ); ;
+
+            UndoRedoSystem.GetInstance().AddAction( () =>
+            {
+                targ.gameObject.transform.SetTransformData( currentTransform );
+            }, () =>
+            {
+                targ.gameObject.transform.SetTransformData( startTransformCopy );
+            } );
+
             ReleaseTarget();
         }
         else if( pressed && !target )
@@ -47,6 +65,13 @@ public class PhysTool : IBasePlayerTool
                 targetLocationOffset = Vector3.zero;
                 targetLocationOffset = Quaternion.Euler( playerController.GetLookRotation() ).UnrotateVector( target.transform.position - GetTargetLockLocation() );
                 targetRotationOffset = target.transform.rotation.eulerAngles - playerController.transform.rotation.eulerAngles;
+
+                startTransform = new TransformData()
+                {
+                    translation = target.transform.position,
+                    rotation = target.transform.rotation,
+                    scale = target.transform.localScale,
+                };
             }
         }
 

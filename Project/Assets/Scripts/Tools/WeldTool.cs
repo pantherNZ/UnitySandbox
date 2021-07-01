@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class WeldTool : IBasePlayerTool
 {
-
-    public override void OnEnabledChanged( bool enabled )
-    {
-
-    }
-
     // Select target
     public override bool OnMouse1( bool pressed )
     {

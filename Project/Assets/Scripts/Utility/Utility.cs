@@ -251,6 +251,13 @@ public class WeightedSelector< T >
     private Func<int, int, int> randomGeneratorPred;
 }
 
+public class TransformData
+{
+    public Vector3 translation;
+    public Quaternion rotation;
+    public Vector3 scale;
+}
+
 public class Pair<T, U>
 {
     public Pair()

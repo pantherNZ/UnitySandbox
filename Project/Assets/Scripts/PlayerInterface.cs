@@ -13,13 +13,13 @@ public class PlayerInterface : MonoBehaviour
 
     void Start()
     {
-        var controller = FindObjectOfType<FPSController>();
-        controller.toolSelectedEvent += OnToolSelectedEvent;
-        controller.toolBoundEvent += OnToolBoundEvent;
+        var controller = FindObjectOfType<PlayerController>();
+        controller.ToolSelectedEvent += OnToolSelectedEvent;
+        controller.ToolBoundEvent += OnToolBoundEvent;
 
         toolbarUILayout = toolbarUIPanel.GetComponentInChildren<HorizontalLayoutGroup>();
 
-        for( int i = 0; i < FPSController.ToolBarMaxItems; ++i )
+        for( int i = 0; i < PlayerController.ToolBarMaxItems; ++i )
             Instantiate( toolUIElementPrefab, toolbarUILayout.transform );
 
         foreach( var (index, tool) in Utility.Enumerate( controller.GetBoundTools() ) )

@@ -10,7 +10,7 @@ public class UndoRedoSystem
     private List<Pair<Action, Action>> actions = new List<Pair<Action, Action>>();
     private int index = 0;
 
-    public UndoRedoSystem GetInstance()
+    public static UndoRedoSystem GetInstance()
     {
         if( Instance == null )
             Instance = new UndoRedoSystem();
@@ -19,10 +19,15 @@ public class UndoRedoSystem
 
     public void ExecuteAction( Action action, Action undo )
     {
+        AddAction( action, undo );
+        action();
+    }
+
+    public void AddAction( Action action, Action undo )
+    {
         var newAction = new Pair<Action, Action>{ First = action, Second = undo };
         actions.Add( newAction );
         ++index;
-        action();
     }
 
     public bool UndoAction()

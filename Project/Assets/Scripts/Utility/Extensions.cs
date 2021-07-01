@@ -432,4 +432,11 @@ public static partial class Extensions
     {
         return new Vector3( Mathf.Atan2( vec.y, vec.x ), Mathf.Atan2( vec.z, vec.ToVector2().magnitude ), 0.0f );
     }
+
+    static public void SetTransformData( this Transform transform, TransformData data )
+    {
+        transform.position = data.translation;
+        transform.localScale = data.scale;
+        transform.rotation = data.rotation;
+    }
 }

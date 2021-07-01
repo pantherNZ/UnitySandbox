@@ -3,17 +3,29 @@ using UnityEngine;
 
 public class DeleteTool : IBasePlayerTool
 {
-    public override void OnEnabledChanged( bool enabled )
-    {
-       
-    }
-
     // Select target
     public override bool OnMouse1( bool pressed )
     {
         if( pressed && playerController.Raycast( out var hitInfo ) )
+        {
             if( playerController.IsValidOwnedObject( hitInfo.collider.gameObject ) )
-                hitInfo.collider.gameObject.Destroy();
+            {
+                var data = hitInfo.collider.gameObject.GetComponent<SandboxObjectData>();
+                var sandboxObject = data.data;
+
+                UndoRedoSystem.GetInstance().ExecuteAction( () =>
+                {
+                    if( sandboxObject.gameObject )
+                        hitInfo.collider.gameObject.Destroy();
+                    else
+                        Debug.LogError( String.Format( "Failed to delete object as it doesn't exist (ID: {0})", sandboxObject.uniqueId ) );
+                }, () =>
+                {
+
+                } );
+            }
+        }
+
         return true;
     }
 

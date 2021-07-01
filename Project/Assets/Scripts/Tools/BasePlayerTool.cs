@@ -15,7 +15,7 @@ public abstract class IBasePlayerTool : MonoBehaviour
 
     private void Start()
     {
-        playerController = GetComponentInParent<FPSController>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     public void SetEnabled( bool enabled )
@@ -38,5 +38,5 @@ public abstract class IBasePlayerTool : MonoBehaviour
     [SerializeField]
     protected Texture2D toolDisplayImage;
 
-    protected FPSController playerController;
+    protected PlayerController playerController;
 }

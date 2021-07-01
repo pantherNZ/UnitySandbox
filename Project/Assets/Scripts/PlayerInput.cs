@@ -169,6 +169,30 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShowConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""57e79614-86e2-4632-8b1c-3c78170a7599"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Undo"",
+                    ""type"": ""Button"",
+                    ""id"": ""43132df1-18be-4d53-a278-8c90d8ec05f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Redo"",
+                    ""type"": ""Button"",
+                    ""id"": ""38c05f82-f9b0-48ae-af00-4ec4f966d436"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -468,6 +492,83 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""ShowToolsMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d0327e9-3f16-42f2-bc86-4491a3617d1c"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ShowConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""d8147818-af66-4c06-9200-828841648be8"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Redo"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""f93e2a6c-bc3d-4668-a220-c566db82634f"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Redo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""ee2cef82-96b5-4410-bca1-c6dbd6550874"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Redo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""b6fa4372-656a-4027-9a08-6faf2d16bb83"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Undo"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""11c33282-1ce9-4bdc-a4ea-85e8072bb2c0"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""230c981b-22bb-414c-998d-7a25862c1e59"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -976,6 +1077,33 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Console"",
+            ""id"": ""1cf57001-7bc4-486b-9bd2-968fc61c20ab"",
+            ""actions"": [
+                {
+                    ""name"": ""ShowConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3c875c4-be6e-4802-9520-84177a568050"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f118884f-78b7-43d7-b2ba-7e32830711cf"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1062,6 +1190,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Player_ToolSelections9 = m_Player.FindAction("ToolSelections9", throwIfNotFound: true);
         m_Player_ShowPauseMenu = m_Player.FindAction("ShowPauseMenu", throwIfNotFound: true);
         m_Player_ShowToolsMenu = m_Player.FindAction("ShowToolsMenu", throwIfNotFound: true);
+        m_Player_ShowConsole = m_Player.FindAction("ShowConsole", throwIfNotFound: true);
+        m_Player_Undo = m_Player.FindAction("Undo", throwIfNotFound: true);
+        m_Player_Redo = m_Player.FindAction("Redo", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1074,6 +1205,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Console
+        m_Console = asset.FindActionMap("Console", throwIfNotFound: true);
+        m_Console_ShowConsole = m_Console.FindAction("ShowConsole", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1142,6 +1276,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_ToolSelections9;
     private readonly InputAction m_Player_ShowPauseMenu;
     private readonly InputAction m_Player_ShowToolsMenu;
+    private readonly InputAction m_Player_ShowConsole;
+    private readonly InputAction m_Player_Undo;
+    private readonly InputAction m_Player_Redo;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -1165,6 +1302,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @ToolSelections9 => m_Wrapper.m_Player_ToolSelections9;
         public InputAction @ShowPauseMenu => m_Wrapper.m_Player_ShowPauseMenu;
         public InputAction @ShowToolsMenu => m_Wrapper.m_Player_ShowToolsMenu;
+        public InputAction @ShowConsole => m_Wrapper.m_Player_ShowConsole;
+        public InputAction @Undo => m_Wrapper.m_Player_Undo;
+        public InputAction @Redo => m_Wrapper.m_Player_Redo;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1231,6 +1371,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @ShowToolsMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowToolsMenu;
                 @ShowToolsMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowToolsMenu;
                 @ShowToolsMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowToolsMenu;
+                @ShowConsole.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowConsole;
+                @ShowConsole.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowConsole;
+                @ShowConsole.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowConsole;
+                @Undo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
+                @Undo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
+                @Undo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
+                @Redo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRedo;
+                @Redo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRedo;
+                @Redo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRedo;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1292,6 +1441,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @ShowToolsMenu.started += instance.OnShowToolsMenu;
                 @ShowToolsMenu.performed += instance.OnShowToolsMenu;
                 @ShowToolsMenu.canceled += instance.OnShowToolsMenu;
+                @ShowConsole.started += instance.OnShowConsole;
+                @ShowConsole.performed += instance.OnShowConsole;
+                @ShowConsole.canceled += instance.OnShowConsole;
+                @Undo.started += instance.OnUndo;
+                @Undo.performed += instance.OnUndo;
+                @Undo.canceled += instance.OnUndo;
+                @Redo.started += instance.OnRedo;
+                @Redo.performed += instance.OnRedo;
+                @Redo.canceled += instance.OnRedo;
             }
         }
     }
@@ -1401,6 +1559,39 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Console
+    private readonly InputActionMap m_Console;
+    private IConsoleActions m_ConsoleActionsCallbackInterface;
+    private readonly InputAction m_Console_ShowConsole;
+    public struct ConsoleActions
+    {
+        private @PlayerInput m_Wrapper;
+        public ConsoleActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShowConsole => m_Wrapper.m_Console_ShowConsole;
+        public InputActionMap Get() { return m_Wrapper.m_Console; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ConsoleActions set) { return set.Get(); }
+        public void SetCallbacks(IConsoleActions instance)
+        {
+            if (m_Wrapper.m_ConsoleActionsCallbackInterface != null)
+            {
+                @ShowConsole.started -= m_Wrapper.m_ConsoleActionsCallbackInterface.OnShowConsole;
+                @ShowConsole.performed -= m_Wrapper.m_ConsoleActionsCallbackInterface.OnShowConsole;
+                @ShowConsole.canceled -= m_Wrapper.m_ConsoleActionsCallbackInterface.OnShowConsole;
+            }
+            m_Wrapper.m_ConsoleActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ShowConsole.started += instance.OnShowConsole;
+                @ShowConsole.performed += instance.OnShowConsole;
+                @ShowConsole.canceled += instance.OnShowConsole;
+            }
+        }
+    }
+    public ConsoleActions @Console => new ConsoleActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1467,6 +1658,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnToolSelections9(InputAction.CallbackContext context);
         void OnShowPauseMenu(InputAction.CallbackContext context);
         void OnShowToolsMenu(InputAction.CallbackContext context);
+        void OnShowConsole(InputAction.CallbackContext context);
+        void OnUndo(InputAction.CallbackContext context);
+        void OnRedo(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1480,5 +1674,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IConsoleActions
+    {
+        void OnShowConsole(InputAction.CallbackContext context);
     }
 }
