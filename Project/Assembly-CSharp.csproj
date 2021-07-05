@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\SandboxObjectData.cs" />
     <Compile Include="Assets\Scripts\SaveGame.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\CreateTool.cs" />
     <Compile Include="Assets\Scripts\Tools\DeleteTool.cs" />
     <Compile Include="Assets\Scripts\Tools\PhysTool.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />

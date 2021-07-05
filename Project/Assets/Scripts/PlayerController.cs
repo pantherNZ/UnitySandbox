@@ -40,6 +40,11 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        var position = GetFPSCamera().transform.position + GetFPSCamera().transform.forward * 10.0f;
+        var newObject = Instantiate( GetComponentInChildren<CreateTool>().cubePrefab, position, Quaternion.identity );
+        var obj = SandboxObject.ObjectManager.Instance.CreateObject( newObject, playerId );
+        obj.Save();
     }
 
     private void InitialiseInput()
@@ -167,14 +172,14 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     public void OnUndo( InputAction.CallbackContext context )
     {
         if( context.started )
-            if( UndoRedoSystem.GetInstance().UndoAction() )
+            if( UndoRedoSystem.Instance.UndoAction() )
                 Debug.Log( "Undo" );
     }
 
     public void OnRedo( InputAction.CallbackContext context )
     {
         if( context.started )
-            if( UndoRedoSystem.GetInstance().RedoAction() )
+            if( UndoRedoSystem.Instance.RedoAction() )
                 Debug.Log( "Redo" );
     }
 
@@ -290,8 +295,9 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
         if( obj == null )
             return false;
         var data = obj.GetComponent<SandboxObjectData>();
-        return data != null && data.ownerId == playerId;
+        return data != null && data.data.ownerId == playerId;
     }
+
     public void Serialise( System.IO.BinaryWriter writer )
     {
         writer.Write( transform.position );

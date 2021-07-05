@@ -12,16 +12,20 @@ public class DeleteTool : IBasePlayerTool
             {
                 var data = hitInfo.collider.gameObject.GetComponent<SandboxObjectData>();
                 var sandboxObject = data.data;
+                sandboxObject.Save();
 
-                UndoRedoSystem.GetInstance().ExecuteAction( () =>
+                UndoRedoSystem.Instance.ExecuteAction( () =>
                 {
                     if( sandboxObject.gameObject )
-                        hitInfo.collider.gameObject.Destroy();
+                        sandboxObject.gameObject.Destroy();
                     else
                         Debug.LogError( String.Format( "Failed to delete object as it doesn't exist (ID: {0})", sandboxObject.uniqueId ) );
                 }, () =>
                 {
-
+                    if( !sandboxObject.gameObject )
+                        sandboxObject.RecreateFromSave();
+                    else
+                        Debug.LogError( String.Format( "Failed to recreate object as it already exists (ID: {0})", sandboxObject.uniqueId ) );
                 } );
             }
         }

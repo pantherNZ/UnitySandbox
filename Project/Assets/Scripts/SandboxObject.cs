@@ -7,7 +7,7 @@ public partial class SandboxObject
     public readonly Int32 ownerId;
 
     [HideInInspector]
-    public readonly Int32 uniqueId;
+    public readonly UInt32 uniqueId;
 
     [HideInInspector]
     public GameObject gameObject { get; private set; }
@@ -15,29 +15,51 @@ public partial class SandboxObject
     [HideInInspector]
     private byte[] storedData;
 
-    public void RecreateFromSave()
+    public void Save()
     {
-        if( gameObject != null )
-            Debug.LogError( "RecreateFromSave: Object already exists" );
-        else
-            gameObject = new GameObject();
+        if( gameObject == null )
+        {
+            Debug.LogError( "SandboxObject::Save: Object is invalid" );
+            return;
+        }
 
-        ObjectManager.Instance.DeserialiseObject( gameObject, storedData );
+        storedData = ObjectManager.Instance.SerialiseObject( gameObject );
     }
 
     public void SaveAndDestroy()
     {
         if( gameObject == null )
         {
-            Debug.LogError( "SaveAndDestroy: Object already destroyed" );
+            Debug.LogError( "SandboxObject::SaveAndDestroy: Object already destroyed" );
             return;
         }
 
-        storedData = ObjectManager.Instance.SerialiseObject( gameObject );
+        Save();
         gameObject.Destroy();
     }
 
-    public SandboxObject( Int32 ownerId, Int32 uniqueId, GameObject gameObject )
+    public void Load()
+    {
+        if( storedData == null )
+        {
+            Debug.LogError( "SandboxObject::Load: No valid data exists to load from" );
+            return;
+        }
+
+        ObjectManager.Instance.DeserialiseObject( gameObject, storedData );
+    }
+
+    public void RecreateFromSave()
+    {
+        if( gameObject != null )
+            Debug.LogError( "SandboxObject::RecreateFromSave: Object already exists" );
+        else
+            gameObject = new GameObject();
+
+        Load();
+    }
+
+    public SandboxObject( Int32 ownerId, UInt32 uniqueId, GameObject gameObject )
     {
         this.ownerId = ownerId;
         this.uniqueId = uniqueId;

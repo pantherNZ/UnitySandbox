@@ -41,7 +41,7 @@ public class PhysTool : IBasePlayerTool
             };
             var targ = SandboxObject.ObjectManager.Instance.CreateObject( target, playerController.playerId ); ;
 
-            UndoRedoSystem.GetInstance().AddAction( () =>
+            UndoRedoSystem.Instance.AddAction( () =>
             {
                 targ.gameObject.transform.SetTransformData( currentTransform );
             }, () =>

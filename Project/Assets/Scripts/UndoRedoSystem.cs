@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 public class UndoRedoSystem
 {
-    private static UndoRedoSystem Instance;
+    static UndoRedoSystem instance;
+    public static UndoRedoSystem Instance
+    {
+        get
+        {
+            if( instance == null )
+                instance = new UndoRedoSystem();
+            return instance;
+        }
+    }
+
     private List<Pair<Action, Action>> actions = new List<Pair<Action, Action>>();
     private int index = 0;
-
-    public static UndoRedoSystem GetInstance()
-    {
-        if( Instance == null )
-            Instance = new UndoRedoSystem();
-        return Instance;
-    }
 
     public void ExecuteAction( Action action, Action undo )
     {
