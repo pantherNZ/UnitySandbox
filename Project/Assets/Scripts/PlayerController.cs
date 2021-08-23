@@ -41,10 +41,18 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        var position = GetFPSCamera().transform.position + GetFPSCamera().transform.forward * 10.0f;
-        var newObject = Instantiate( GetComponentInChildren<CreateTool>().cubePrefab, position, Quaternion.identity );
-        var obj = SandboxObject.ObjectManager.Instance.CreateObject( newObject, playerId );
-        obj.Save();
+        // object save/load test
+        //var position = GetFPSCamera().transform.position + GetFPSCamera().transform.forward * 10.0f;
+        //var newObject = Instantiate( GetComponentInChildren<CreateTool>().cubePrefab, position, Quaternion.identity );
+        //var obj = SandboxObject.ObjectManager.Instance.CreateObject( newObject, playerId );
+        //obj.Save();
+        //
+        //obj.gameObject.Destroy();
+        //
+        //Utility.FunctionTimer.CreateTimer( 3.0f, () =>
+        //{
+        //    obj.RecreateFromSave();
+        //} );
     }
 
     private void InitialiseInput()

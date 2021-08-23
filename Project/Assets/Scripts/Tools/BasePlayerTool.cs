@@ -13,7 +13,7 @@ public abstract class IBasePlayerTool : MonoBehaviour
     public virtual bool OnSpecialActionAlt( bool pressed ) { return false; }
     // Interface end --
 
-    private void Start()
+    protected void Start()
     {
         playerController = GetComponentInParent<PlayerController>();
     }

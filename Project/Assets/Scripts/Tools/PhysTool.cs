@@ -11,14 +11,14 @@ public class PhysTool : IBasePlayerTool
     [SerializeField]
 	private float objectRotateSpeedYaw = 0.1f;
     [SerializeField]
-    private float objectRotateSpeedPitch = 0.1f;
+    //private float objectRotateSpeedPitch = 0.1f;
 	private bool rotatingTarget;
 	private bool rotateAxisAligned;
 
 	private float targetDistance;
 	private Vector3 targetLocationOffset;
 	private Vector3 targetRotationOffset;
-	private Vector3 rotationOffset;
+	//private Vector3 rotationOffset;
 	private TransformData startTransform;
      
     public override void OnEnabledChanged( bool enabled ) 
@@ -39,7 +39,7 @@ public class PhysTool : IBasePlayerTool
                 rotation = target.transform.rotation,
                 scale = target.transform.localScale,
             };
-            var targ = SandboxObject.ObjectManager.Instance.CreateObject( target, playerController.playerId ); ;
+            var targ = SandboxObject.ObjectManager.Instance.GetObject( target ); ;
 
             UndoRedoSystem.Instance.AddAction( () =>
             {
@@ -56,7 +56,7 @@ public class PhysTool : IBasePlayerTool
             var result = playerController.Raycast( out var hitInfo );
             Debug.Log( "Fire: " + result + " " + ( hitInfo.rigidbody ? hitInfo.rigidbody.gameObject.name : "" ) );
 
-            if( result && hitInfo.rigidbody )
+            if( result && hitInfo.rigidbody && playerController.IsValidOwnedObject( hitInfo.rigidbody.gameObject ) )
             {
                 Debug.Log( "Hit: " + hitInfo.rigidbody.gameObject.name );
                 target = hitInfo.rigidbody.gameObject;

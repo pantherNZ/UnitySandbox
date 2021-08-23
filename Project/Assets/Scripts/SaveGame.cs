@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public static class SaveGameSystem
@@ -211,5 +212,192 @@ public static partial class Extensions
             y = reader.ReadInt32(),
             z = reader.ReadInt32()
         };
+    }
+
+    public static void Write( this BinaryWriter writer, Vector4 vec )
+    {
+        writer.Write( vec.x );
+        writer.Write( vec.y );
+        writer.Write( vec.z );
+        writer.Write( vec.w );
+    }
+
+    public static Vector4 ReadVector4( this BinaryReader reader )
+    {
+        return new Vector4
+        {
+            x = reader.ReadSingle(),
+            y = reader.ReadSingle(),
+            z = reader.ReadSingle(),
+            w = reader.ReadSingle()
+        };
+    }
+
+    public static void Write( this BinaryWriter writer, Quaternion quat )
+    {
+        writer.Write( quat.x );
+        writer.Write( quat.y );
+        writer.Write( quat.z );
+        writer.Write( quat.w );
+    }
+
+    public static Quaternion ReadQuaternion( this BinaryReader reader )
+    {
+        return new Quaternion
+        {
+            x = reader.ReadSingle(),
+            y = reader.ReadSingle(),
+            z = reader.ReadSingle(),
+            w = reader.ReadSingle()
+        };
+    }
+
+    public static void Write( this BinaryWriter writer, Color colour )
+    {
+        writer.Write( colour.r );
+        writer.Write( colour.g );
+        writer.Write( colour.b );
+        writer.Write( colour.a );
+    }
+
+    public static Color ReadColour( this BinaryReader reader )
+    {
+        return new Color
+        {
+            r = reader.ReadSingle(),
+            g = reader.ReadSingle(),
+            b = reader.ReadSingle(),
+            a = reader.ReadSingle()
+        };
+    }
+
+    public static void Write( this BinaryWriter writer, bool value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, byte value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, byte[] value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, char value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, char[] value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, decimal value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, double value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, int value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, long value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, short value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, string value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, ulong value ) { writer.Write( value ); }
+    public static void Write( this BinaryWriter writer, ushort value ) { writer.Write( value ); }
+    public static bool ReadBoolean( this BinaryReader reader ) { return reader.ReadBoolean(); }
+    public static byte ReadByte( this BinaryReader reader ) { return reader.ReadByte(); }
+    public static byte[] ReadBytes( this BinaryReader reader ) { return reader.ReadBytes(); }
+    public static char ReadChar( this BinaryReader reader ) { return reader.ReadChar(); }
+    public static char[] ReadChars( this BinaryReader reader ) { return reader.ReadChars(); }
+    public static decimal ReadDecimal( this BinaryReader reader ) { return reader.ReadDecimal(); }
+    public static float ReadSingle( this BinaryReader reader ) { return reader.ReadSingle(); }
+    public static double ReadDouble( this BinaryReader reader ) { return reader.ReadDouble(); }
+    public static string ReadString( this BinaryReader reader ) { return reader.ReadString(); }
+    public static Int16 ReadInt16( this BinaryReader reader ) { return reader.ReadInt16(); }
+    public static UInt16 ReadUInt16( this BinaryReader reader ) { return reader.ReadUInt16(); }
+    public static Int32 ReadInt32( this BinaryReader reader ) { return reader.ReadInt32(); }
+    public static UInt32 ReadUInt32( this BinaryReader reader ) { return reader.ReadUInt32(); }
+    public static Int64 ReadInt64( this BinaryReader reader ) { return reader.ReadInt64(); }
+    public static UInt64 ReadUInt64( this BinaryReader reader ) { return reader.ReadUInt64(); }
+
+    public static void Write( this BinaryWriter writer, object value )
+    {
+        if( value == null )
+        {
+            writer.Write( "{{NULL}}" );
+            return;
+        }
+
+        var type = value.GetType();
+
+        if( type.IsEnum )
+        {
+            var underlyingValue = ( dynamic )Convert.ChangeType( value, Enum.GetUnderlyingType( type ) );
+            Extensions.Write( writer, underlyingValue );
+        }
+        else if( type == typeof( Material ) )
+        {
+            Extensions.Write( writer, AssetDatabase.GetAssetPath( value as Material ) );
+        }
+        else if( type == typeof( Mesh ) )
+        {
+            var path = AssetDatabase.GetAssetPath( value as Mesh );
+            Extensions.Write( writer, path );
+        }
+        else if( type == typeof( PhysicMaterial ) )
+        {
+            Extensions.Write( writer, AssetDatabase.GetAssetPath( value as PhysicMaterial ) );
+        }
+        else if( type == typeof( string ) )
+        {
+            Extensions.Write( writer, value as string );
+        }
+        else
+        {
+            var dynamicValue = ( dynamic )value;
+            Extensions.Write( writer, dynamicValue );
+        }
+    }
+
+    static readonly Dictionary<Type, Func< BinaryReader, object > > lookupTable = new Dictionary<Type, Func< BinaryReader, object >>
+    {
+        { typeof( bool ), ( reader ) => { return reader.ReadBoolean(); } },
+        { typeof( byte ), ( reader ) => { return reader.ReadByte(); } },
+        { typeof( byte[] ), ( reader ) => { return reader.ReadBytes(); } },
+        { typeof( char ), ( reader ) => { return reader.ReadChar(); } },
+        { typeof( char[] ), ( reader ) => { return reader.ReadChars(); } },
+        { typeof( decimal ), ( reader ) => { return reader.ReadDecimal(); } },
+        { typeof( float ), ( reader ) => { return reader.ReadSingle(); } },
+        { typeof( double ), ( reader ) => { return reader.ReadDouble(); } },
+        { typeof( string ), ( reader ) => { return reader.ReadString(); } },
+        { typeof( Int16 ), ( reader ) => { return reader.ReadInt16(); } },
+        { typeof( UInt16 ), ( reader ) => { return reader.ReadUInt16(); } },
+        { typeof( Int32 ), ( reader ) => { return reader.ReadInt32(); } },
+        { typeof( UInt32 ), ( reader ) => { return reader.ReadUInt32(); } },
+        { typeof( Int64 ), ( reader ) => { return reader.ReadInt64(); } },
+        { typeof( UInt64 ), ( reader ) => { return reader.ReadUInt64(); } },
+        { typeof( Vector2 ), ( reader ) => { return reader.ReadVector2(); } },
+        { typeof( Vector2Int ), ( reader ) => { return reader.ReadVector2Int(); } },
+        { typeof( Vector3 ), ( reader ) => { return reader.ReadVector3(); } },
+        { typeof( Vector3Int ), ( reader ) => { return reader.ReadVector3Int(); } },
+        { typeof( Vector4 ), ( reader ) => { return reader.ReadVector4(); } },
+        { typeof( Quaternion ), ( reader ) => { return reader.ReadQuaternion(); } },
+        { typeof( Color ), ( reader ) => { return reader.ReadColour(); } },
+    };
+
+    public static object ReadObject( this BinaryReader reader, Type type )
+    {
+        if( type == typeof( string ) )
+        {
+            var str = reader.ReadString();
+            return str == "{{NULL}}" ? null : str;
+        }
+
+        if( type.IsEnum )
+        {
+            return lookupTable[Enum.GetUnderlyingType( type )].Invoke( reader );
+        }
+        else if( type == typeof( Material ) )
+        {
+            var path = reader.ReadString();
+            return Resources.Load<Material>( path.Substring( 0, path.LastIndexOf( '.' ) ) );
+        }
+        else if( type == typeof( Mesh ) )
+        {
+            var path = reader.ReadString();
+            path = path.Substring( 0, path.LastIndexOf( '.' ) );
+            if( path.StartsWith( "Assets/" ) )
+                path = path.Substring( "Assets/".Length );
+            return Resources.Load<Mesh>( path );
+        }
+        else if( type == typeof( PhysicMaterial ) )
+        {
+            var path = reader.ReadString();
+            return Resources.Load<PhysicMaterial>( path.Substring( 0, path.LastIndexOf( '.' ) ) );
+        }
+        else if( !lookupTable.ContainsKey( type ) )
+            Debug.LogError( "ReadObject Error: Failed to read object of type: " + type.ToString() );
+
+        return lookupTable[type].Invoke( reader );
     }
 }

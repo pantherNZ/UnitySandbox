@@ -4,15 +4,18 @@ using UnityEngine.UI;
 
 public class PlayerInterface : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject toolUIElementPrefab;
+    [SerializeField] private GameObject consolePrefab;
+    [SerializeField] private GameObject toolUIElementPrefab;
 
-    [SerializeField]
-    private GameObject toolbarUIPanel;
+    [SerializeField] private GameObject toolbarUIPanel;
     private HorizontalLayoutGroup toolbarUILayout;
+    [SerializeField] private CanvasGroup toolsMenuPanel;
+    [SerializeField] private CanvasGroup createPropsMenuPanel;
 
     void Start()
     {
+        Instantiate( consolePrefab );
+
         var controller = FindObjectOfType<PlayerController>();
         controller.ToolSelectedEvent += OnToolSelectedEvent;
         controller.ToolBoundEvent += OnToolBoundEvent;
@@ -26,6 +29,9 @@ public class PlayerInterface : MonoBehaviour
             OnToolBoundEvent( new ToolBoundEventArgs() { player = controller, newTool = tool, toolIndex = index }  );
 
         OnToolSelectedEvent( new ToolSelectedEventArgs() { player = controller, oldToolIndex = 0, newToolIndex = controller.GetCurrentToolIndex() } );
+
+        toolsMenuPanel.SetVisibility( false );
+        createPropsMenuPanel.SetVisibility( false );
     }
 
     private void OnToolBoundEvent( ToolBoundEventArgs args )

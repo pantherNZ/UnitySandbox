@@ -1,5 +1,7 @@
-﻿using System;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class CreateTool : IBasePlayerTool
 {
@@ -8,6 +10,15 @@ public class CreateTool : IBasePlayerTool
 
     [SerializeField]
     float createOffsetDistance = 10.0f;
+
+    private List<GameObject> props;
+
+    new protected void Start()
+    {
+        base.Start();
+
+        props = Resources.LoadAll<GameObject>( "Prefabs/Props" ).ToList();
+    }
 
     // Select target
     public override bool OnMouse1( bool pressed )
@@ -24,7 +35,7 @@ public class CreateTool : IBasePlayerTool
             }
 
             var newObject = Instantiate( cubePrefab, position, rotation );
-            SandboxObject.ObjectManager.Instance.CreateObject( newObject, playerController.playerId );
+            SandboxObject.ObjectManager.Instance.CreateObject( newObject, cubePrefab, playerController.playerId );
         }
 
         return true;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEditor;
 using UnityEngine;
@@ -40,12 +41,27 @@ public partial class SandboxObject
             return newId;
         }
 
-        public SandboxObject CreateObject( GameObject obj, Int32 ownerId )
+        public SandboxObject GetObject( GameObject obj )
         {
-            var sandboxObj = new SandboxObject(ownerId, GenerateUniqueId(), obj );
+            var sandboxObj = obj.GetComponent<SandboxObjectData>();
+            return sandboxObj != null ? sandboxObj.data : null;
+        }
+
+        public SandboxObject CreateObject( GameObject obj, GameObject prefab, Int32 ownerId )
+        {
+            var prefabResource = AssetDatabase.GetAssetPath( prefab );
+            var sandboxObj = new SandboxObject(ownerId, GenerateUniqueId(), prefabResource, obj );
             SetupObject( sandboxObj, obj );
             allObjects[sandboxObj.uniqueId] = sandboxObj;
             return sandboxObj;
+        }
+
+        public SandboxObject CreateOrCreateObject( GameObject obj, GameObject prefab, Int32 ownerId )
+        {
+            var sandboxObj = GetObject( obj );
+            if( sandboxObj != null )
+                return sandboxObj;
+            return CreateObject( obj, prefab, ownerId );
         }
 
         public void CreateObject( SandboxObject sandboxObj, GameObject obj )
@@ -71,21 +87,6 @@ public partial class SandboxObject
             dataCmp.data = sandboxObj;
         }
 
-        public void DeserialiseObject( GameObject obj, byte[] storedData )
-        {
-            if( obj == null )
-            {
-                Debug.LogError( "DeserialiseObject: Object is NULL" );
-                return;
-            }
-
-            if( storedData == null || storedData.Length == 0 )
-            {
-                Debug.LogError( "DeserialiseObject: Cannot recreate game object as there is no stored data" );
-                return;
-            }
-        }
-
         //https://www.gamasutra.com/blogs/SamanthaStahlke/20170621/300187/Building_a_Simple_System_for_Persistence_with_Unity.php
         // https://answers.unity.com/questions/1333022/how-to-get-every-public-variables-from-a-script-in.html
         // https://answers.unity.com/questions/627090/convert-serializedproperty-to-custom-class.html
@@ -99,44 +100,163 @@ public partial class SandboxObject
             }
 
             var memoryStream = new MemoryStream();
+            var writer = new BinaryWriter( memoryStream );
+            var dummyObject = new GameObject();
 
-            using( var writer = new BinaryWriter( memoryStream ) )
+            var sandboxObject = obj.GetComponent<SandboxObjectData>();
+            writer.Write( sandboxObject.data.uniqueId );
+
+            var components = obj.GetComponents<Component>();
+            // Subtract one because we have already serialised sandbox object data
+            writer.Write( components.Length - 1 );
+            Debug.Log( "Writing num components: " + ( components.Length - 1 ) );
+
+            foreach( var cmp in components )
             {
-                var dummyObject = new GameObject();
-                foreach( var cmp in obj.GetComponents<Component>() )
-                {
-                    var type = cmp.GetType();
-                    var defaultInstance = dummyObject.GetComponent( type );
-                    if( defaultInstance == null )
-                        defaultInstance = dummyObject.AddComponent( type );
+                var type = cmp.GetType();
 
-                    foreach( var thisVar in type.GetProperties() )
-                    {
-                        if( ( thisVar.GetSetMethod() != null || thisVar.IsDefined( typeof( SerializeField ) ) ) &&
-                            !thisVar.IsDefined( typeof( HideInInspector ) ) &&
-                            !thisVar.IsDefined( typeof( NonSerializedAttribute ) ) &&
-                            thisVar.GetValue( defaultInstance ) != null &&
-                            !thisVar.GetValue( defaultInstance ).Equals( thisVar.GetValue( cmp ) ) )
-                        {
-                            if( thisVar.PropertyType.IsClass )
-                            {
-                            }
-                            else
-                            {
-                                //Debug.Log( String.Format( "{0}: {1} - ({2}: {3})", thisVar.PropertyType.Name, thisVar.Name, thisVar.GetValue( defaultInstance ), thisVar.GetValue( cmp ) ) );
-                                writer.Write( thisVar.PropertyType.Name );
-                                writer.Write( ( dynamic )thisVar.GetValue( cmp ) );
-                            }
-                        }
-                    }
+                if( type == typeof( SandboxObjectData ) )
+                    continue;
+
+                var defaultInstance = dummyObject.GetComponent( type );
+                if( defaultInstance == null )
+                    defaultInstance = dummyObject.AddComponent( type );
+
+                writer.Write( type.AssemblyQualifiedName );
+                Debug.Log( "Writing component type: " + type.AssemblyQualifiedName );
+
+                var propertiesToSerialise = new List<PropertyInfo>();
+                foreach( var thisVar in type.GetProperties() )
+                {
+                    if( thisVar.GetSetMethod() == null && !thisVar.IsDefined( typeof( SerializeField ) ) )
+                        continue;
+                    if( thisVar.IsDefined( typeof( HideInInspector ) ) )
+                        continue;
+                    if( thisVar.IsDefined( typeof( NonSerializedAttribute ) ) )
+                        continue;
+                    if( thisVar.IsDefined( typeof( ObsoleteAttribute ) ) )
+                        continue;
+                    if( thisVar.IsDefined( typeof( Mesh ) ) )
+                        continue;
+                    // Skip the mesh var in meshfilter because accessing it results in a side effect of copying the mesh and instantiating a new one,
+                    // which breaks our serialisation because the path is no longer a valid resource path
+                    //if( type == typeof( MeshFilter ) && thisVar.PropertyType == typeof( Mesh ) && thisVar.Name == "mesh" )
+                    //    continue;
+
+                    var defaultNull = thisVar.GetValue( defaultInstance ) == null;
+                    var currentNull = thisVar.GetValue( cmp ) == null;
+
+                    if( defaultNull && currentNull )
+                        continue;
+                    if( !defaultNull && thisVar.GetValue( defaultInstance ).Equals( thisVar.GetValue( cmp ) ) )
+                        continue;
+
+                    propertiesToSerialise.Add( thisVar );
                 }
 
-                dummyObject.Destroy();
+                writer.Write( propertiesToSerialise.Count );
+                Debug.Log( "Writing num properties: " + propertiesToSerialise.Count );
+
+                foreach( var thisVar in propertiesToSerialise )
+                {
+                    var value = thisVar.GetValue( cmp );
+
+                    Debug.Log( String.Format( "{0}: {1} - ({2}: {3})", thisVar.PropertyType.Name, thisVar.Name, thisVar.GetValue( defaultInstance ), value ) );
+                    Debug.Log( String.Format( "{0}: {1} - Is Pointer: {2}, Is Class: {3}", thisVar.PropertyType.Name, thisVar.Name, thisVar.PropertyType.IsClass, thisVar.PropertyType.IsPointer ) );
+
+                    writer.Write( thisVar.Name );
+                    writer.Write( thisVar.PropertyType.IsArray );
+                    Debug.Log( "Writing property name: " + thisVar.Name );
+
+                    if( thisVar.PropertyType.IsArray )
+                    {
+                        //writer.Write( thisVar.PropertyType.GetElementType().AssemblyQualifiedName );
+                        //var array = value as Array;
+                        //writer.Write( array.Length );
+                        //foreach( var element in array )
+                        //    writer.Write( element );
+                    }
+                    else
+                    {
+                        writer.Write( thisVar.PropertyType.AssemblyQualifiedName );
+                        writer.Write( value );
+                        Debug.Log( "Writing property type: " + thisVar.PropertyType.AssemblyQualifiedName );
+                        Debug.Log( "Writing property value: " + value );
+                    }
+                }
             }
 
+            dummyObject.Destroy();
+            writer.Dispose();
             memoryStream.Dispose();
             return memoryStream.ToArray();
-    }
+        }
+
+        public GameObject DeserialiseObject( byte[] storedData )
+        {
+            if( storedData == null || storedData.Length == 0 )
+            {
+                Debug.LogError( "DeserialiseObject: Cannot recreate game object as there is no stored data" );
+                return null;
+            }
+
+            var memoryStream = new MemoryStream( storedData, writable: false );
+            var reader = new BinaryReader( memoryStream );
+
+            var uniqueId = reader.ReadUInt32();
+            var sandboxObjData = allObjects[uniqueId];
+            var prefab = Resources.Load<GameObject>( sandboxObjData.prefabResource );
+            var obj = GameObject.Instantiate( prefab );
+
+            var sandboxObject = obj.AddComponent<SandboxObjectData>();
+            sandboxObject.data = sandboxObjData;
+
+            var componentCount = reader.ReadInt32();
+            Debug.Log( "Reading num components: " + componentCount );
+
+            for( int i = 0; i < componentCount; ++i )
+            {
+                var componentType = Type.GetType( reader.ReadString() );
+                Debug.Log( "Reading component type: " + componentType.AssemblyQualifiedName );
+
+                var cmp = obj.GetComponent( componentType );
+                if( cmp == null )
+                    cmp = obj.AddComponent( componentType );
+                var numProperties = reader.ReadInt32();
+                Debug.Log( "Reading num properties: " + numProperties );
+
+                for( int j = 0; j < numProperties; ++j )
+                {
+                    var propName = reader.ReadString();
+                    var isArray = reader.ReadBoolean();
+                    Debug.Log( "Reading property name: " + propName );
+
+                    if( isArray )
+                    {
+                        //var propElementType = Type.GetType( reader.ReadString() );
+                        //var arrayLength = reader.ReadInt32();
+                        //
+                        //for( int k = 0; k < numProperties; ++k )
+                        //{
+                        //    //reader.Read
+                        //}
+                    }
+                    else
+                    {
+                        var propType = Type.GetType( reader.ReadString() );
+                        var value = reader.ReadObject( propType );
+                        componentType.GetProperty( propName ).SetValue( cmp, value );
+
+                        Debug.Log( "Reading property type: " + propType.AssemblyQualifiedName );
+                        Debug.Log( "Reading property value: " + value );
+                    }
+                }
+            }
+
+            reader.Dispose();
+            memoryStream.Dispose();
+            return obj;
+        }
 
         public void Serialise( System.IO.BinaryWriter writer )
         {

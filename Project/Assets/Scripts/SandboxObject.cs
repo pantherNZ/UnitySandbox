@@ -13,6 +13,9 @@ public partial class SandboxObject
     public GameObject gameObject { get; private set; }
 
     [HideInInspector]
+    public readonly string prefabResource;
+
+    [HideInInspector]
     private byte[] storedData;
 
     public void Save()
@@ -46,24 +49,26 @@ public partial class SandboxObject
             return;
         }
 
-        ObjectManager.Instance.DeserialiseObject( gameObject, storedData );
+        if( gameObject )
+            gameObject.Destroy();
+
+        gameObject = ObjectManager.Instance.DeserialiseObject( storedData );
     }
 
     public void RecreateFromSave()
     {
         if( gameObject != null )
             Debug.LogError( "SandboxObject::RecreateFromSave: Object already exists" );
-        else
-            gameObject = new GameObject();
 
         Load();
     }
 
-    public SandboxObject( Int32 ownerId, UInt32 uniqueId, GameObject gameObject )
+    public SandboxObject( Int32 ownerId, UInt32 uniqueId, string prefabResource, GameObject gameObject )
     {
         this.ownerId = ownerId;
         this.uniqueId = uniqueId;
         this.gameObject = gameObject;
+        this.prefabResource = prefabResource;
     }
 
     public static implicit operator bool( SandboxObject obj )
