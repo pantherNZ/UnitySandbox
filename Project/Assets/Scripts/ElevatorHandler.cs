@@ -15,27 +15,48 @@ public class ElevatorHandler : MonoBehaviour
     [SerializeField] float elevatorSpeed = 10.0f;
     [SerializeField] bool allowChangingDirectionWhenOccupied = false;
     [SerializeField] List<float> floorHeights = new List<float>();
-    [SerializeField] GameObject elevatorObject;
 
     Int32 currentFloor = 0;
     State state = State.Stationary;
-    List<Int32> floorRequests = new List<Int32>();
+    List<Int32> internalRequests = new List<Int32>();
+    List<Pair<Int32, bool>> externalRequests = new List<Pair<Int32, bool>>();
 
     private void Start()
     {
-        if( floorHeights.IsEmpty() || elevatorObject == null )
+        if( floorHeights.IsEmpty() )
         {
             Debug.LogError( "ElevatorHandler has no floor heights specified or elevator gameobject is invalid" );
             return;
         }
 
-        elevatorObject.transform.position = elevatorObject.transform.position.SetZ( floorHeights.Front() );
+        transform.position = transform.position.SetY( floorHeights.Front() );
     }
 
-    public void CallElevator( Int32 floorIndex, bool calledFromInsideElevator )
+    public void CallElevatorFromInside( Int32 floorIndex )
     {
-        if( floorHeights.IsEmpty() || elevatorObject == null )
+        if( floorHeights.IsEmpty() )
             return;
+
+        internalRequests.Add( floorIndex );
+        ProcessNextMovement();
+    }
+
+    public void CallElevatorUpFromFloor( Int32 floorIndex )
+    {
+        if( floorHeights.IsEmpty() )
+            return;
+
+        externalRequests.Add( new Pair<Int32, bool>() { First = floorIndex, Second = true } );
+        ProcessNextMovement();
+    }
+
+    public void CallElevatorDownFromFloor( Int32 floorIndex )
+    {
+        if( floorHeights.IsEmpty() )
+            return;
+
+        externalRequests.Add( new Pair<Int32, bool>() { First = floorIndex, Second = false } );
+        ProcessNextMovement();
     }
 
     public bool IsMoving()
@@ -55,28 +76,39 @@ public class ElevatorHandler : MonoBehaviour
 
     private void MoveUp()
     {
-        if( floorHeights.IsEmpty() || elevatorObject == null || currentFloor >= floorHeights.Count - 1 )
+        if( floorHeights.IsEmpty() || currentFloor >= floorHeights.Count - 1 )
             return;
 
         ++currentFloor;
-        var distance = floorHeights[currentFloor] - floorHeights[currentFloor - 1];
-        StartCoroutine( MoveTo( true, elevatorObject.transform.position.SetZ( floorHeights[currentFloor] ), distance / elevatorSpeed ) );
+        var distance = Mathf.Abs( floorHeights[currentFloor] - floorHeights[currentFloor - 1] );
+        StartCoroutine( MoveTo( true, transform.position.SetY( floorHeights[currentFloor] ), distance / elevatorSpeed ) );
     }
 
     private void MoveDown()
     {
-        if( floorHeights.IsEmpty() || elevatorObject == null || currentFloor <= 0 )
+        if( floorHeights.IsEmpty() || currentFloor <= 0 )
             return;
 
         --currentFloor;
-        var distance = floorHeights[currentFloor] - floorHeights[currentFloor + 1];
-        StartCoroutine( MoveTo( false, elevatorObject.transform.position.SetZ( floorHeights[currentFloor] ), distance / elevatorSpeed ) );
+        var distance = Mathf.Abs( floorHeights[currentFloor] - floorHeights[currentFloor + 1] );
+        StartCoroutine( MoveTo( false, transform.position.SetY( floorHeights[currentFloor] ), distance / elevatorSpeed ) );
     }
 
     private IEnumerator MoveTo( bool movingUp, Vector3 targetPos, float duration )
     {
         state = movingUp ? State.MovingUp : State.MovingDown;
-        yield return Utility.InterpolatePosition( elevatorObject.transform, targetPos, duration );
+        yield return Utility.InterpolatePosition( transform, targetPos, duration );
         state = State.Stationary;
+        ProcessNextMovement();
+    }
+
+    private void ProcessNextMovement()
+    {
+        if( currentFloor > internalRequests.Front() )
+            MoveDown();
+        else if( currentFloor < internalRequests.Front() )
+            MoveUp();
+        else
+            internalRequests.PopFront();
     }
 }

@@ -8,6 +8,12 @@ public static partial class Utility
 {
     public static IEnumerator FadeToBlack( CanvasGroup group, float fadeDurationSec )
     {
+        if( fadeDurationSec <= 0.0f )
+        {
+            Debug.LogError( "FadeToBlack called with a negative or 0 duration" );
+            yield return null;
+        }
+
         while( group != null && group.alpha > 0.0f )
         {
             group.alpha = Mathf.Max( 0.0f, group.alpha - Time.deltaTime * ( 1.0f / fadeDurationSec ) );
@@ -25,6 +31,12 @@ public static partial class Utility
 
     public static IEnumerator FadeFromBlack( CanvasGroup group, float fadeDurationSec )
     {
+        if( fadeDurationSec <= 0.0f )
+        {
+            Debug.LogError( "FadeFromBlack called with a negative or 0 duration" );
+            yield return null;
+        }
+
         while( group != null && group.alpha < 1.0f )
         {
             group.alpha = Mathf.Min( 1.0f, group.alpha + Time.deltaTime * ( 1.0f / fadeDurationSec ) );
@@ -67,6 +79,12 @@ public static partial class Utility
 
     public static IEnumerator FadeToColour( Graphic image, Color colour, float fadeDurationSec, Func<float, float, float, float> interpolator )
     {
+        if( fadeDurationSec <= 0.0f )
+        {
+            Debug.LogError( "FadeToColour called with a negative or 0 duration" );
+            yield return null;
+        }
+
         Debug.Assert( image != null );
         if( image == null )
             yield break;
@@ -95,6 +113,12 @@ public static partial class Utility
 
     public static IEnumerator InterpolateScale( Transform transform, Vector3 targetScale, float durationSec )
     {
+        if( durationSec <= 0.0f )
+        {
+            Debug.LogError( "InterpolateScale called with a negative or 0 duration" );
+            yield return null;
+        }
+
         var interp = targetScale - transform.localScale;
 
         while( transform != null && ( targetScale - transform.localScale ).sqrMagnitude > 0.01f )
@@ -121,6 +145,12 @@ public static partial class Utility
 
     public static IEnumerator InterpolatePosition( Transform transform, Vector3 targetPosition, float durationSec )
     {
+        if( durationSec <= 0.0f )
+        {
+            Debug.LogError( "InterpolatePosition called with a negative or 0 duration" );
+            yield return null;
+        }
+
         var interp = targetPosition - transform.position;
 
         while( transform != null && ( targetPosition - transform.position ).sqrMagnitude > 0.01f )
@@ -147,6 +177,12 @@ public static partial class Utility
 
     public static IEnumerator InterpolateAlongPath( Transform transform, PathCreation.PathCreator path, float durationSec )
     {
+        if( durationSec <= 0.0f )
+        {
+            Debug.LogError( "InterpolateAlongPath called with a negative or 0 duration" );
+            yield return null;
+        }
+
         float interp = 0.0f;
         var startPos = transform.position;
 
@@ -159,26 +195,32 @@ public static partial class Utility
         }
     }
 
-    public static void Shake( this MonoBehaviour mono, float duration, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
+    public static void Shake( this MonoBehaviour mono, float durationSec, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
     {
-        mono.Shake( mono.transform, duration, amplitudeStart, amplitudeEnd, frequency, yMultiplier );
+        mono.Shake( mono.transform, durationSec, amplitudeStart, amplitudeEnd, frequency, yMultiplier );
     }
 
-    public static void Shake( this MonoBehaviour mono, Transform target, float duration, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
+    public static void Shake( this MonoBehaviour mono, Transform target, float durationSec, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
     {
-        mono.StartCoroutine( Shake( target, duration, amplitudeStart, amplitudeEnd, frequency, yMultiplier ) );
+        mono.StartCoroutine( Shake( target, durationSec, amplitudeStart, amplitudeEnd, frequency, yMultiplier ) );
     }
 
-    public static IEnumerator Shake( Transform transform, float duration, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
+    public static IEnumerator Shake( Transform transform, float durationSec, float amplitudeStart, float amplitudeEnd, float frequency, float yMultiplier )
     {
+        if( durationSec <= 0.0f )
+        {
+            Debug.LogError( "Shake called with a negative or 0 duration" );
+            yield return null;
+        }
+
         var elapsed = 0.0f;
         var originalPos = transform.localPosition;
 
-        while( elapsed < duration && transform != null )
+        while( elapsed < durationSec && transform != null )
         {
             elapsed += Time.deltaTime;
 
-            var dynamicAmplitude = Mathf.Lerp( amplitudeStart, amplitudeEnd, elapsed / duration );
+            var dynamicAmplitude = Mathf.Lerp( amplitudeStart, amplitudeEnd, elapsed / durationSec );
             transform.localPosition = originalPos + new Vector3(
                 Mathf.Sin( elapsed * frequency ) * dynamicAmplitude,
                 Mathf.Sin( elapsed * frequency * yMultiplier ) * dynamicAmplitude / yMultiplier,
