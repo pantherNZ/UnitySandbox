@@ -22,7 +22,6 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     [HideInInspector]
     public Int32 playerId { get; private set; }
     private PlayerInput input;
-    private Camera fpsCamera;
     private Vector2 moveVector;
     private Vector2 lookVector;
     private Vector2 rotation;
@@ -31,9 +30,13 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     private IBasePlayerTool[] boundTools = new IBasePlayerTool[ToolBarMaxItems];
     private int currentToolIndex;
 
+    private Camera fpsCamera;
+    private Rigidbody rigidBody;
+
     private void Start()
     {
         fpsCamera = GetComponentInChildren<Camera>();
+        rigidBody = GetComponent<Rigidbody>();
 
         InitialiseTools();
         InitialiseInput();
@@ -264,8 +267,9 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
         var scaledMoveSpeed = moveSpeed * Time.fixedDeltaTime;
         // For simplicity's sake, we just keep movement in a single plane here. Rotate
         // direction according to world Y rotation of player.
-        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        transform.position += move * scaledMoveSpeed;
+        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0.0f, direction.y);
+        rigidBody.velocity = ( move * scaledMoveSpeed ).SetY( rigidBody.velocity.y );
+        //transform.position += move * scaledMoveSpeed;
     }
 
     private void Look( Vector2 rotate )
@@ -314,5 +318,27 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     public void Deserialise( System.IO.BinaryReader reader )
     {
         transform.position = reader.ReadVector3();
+    }
+
+    // Debug code
+    private void Update()
+    {
+        if( Input.GetKeyDown( KeyCode.F1 ) )
+            ListRaycasts();
+    }
+
+    private void ListRaycasts()
+    {
+        Ray ray = Camera.main.ScreenPointToRay( Mouse.current.position.ReadValue() );
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll( ray );
+        int i = 0;
+        while( i < hits.Length )
+        {
+            RaycastHit hit = hits[i];
+            Debug.Log( hit.collider.gameObject.name );
+            hit.collider.gameObject.SendMessage( "OnMouseEnter" );
+            i++;
+        }
     }
 }

@@ -55,6 +55,20 @@ public static partial class Extensions
         list.RemoveAt( list.Count - 1 );
     }
 
+    public static bool Remove<T>( this List<T> list, Predicate<T> match )
+    {
+        foreach( var ( idx, x ) in Enumerate( list ) )
+        {
+            if( match( x ) )
+            {
+                list.RemoveAt( idx );
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void RemovePairFirst<U, V>( this List<Pair<U, V>> list, U item )
     {
         RemoveBySwap( list, x => x.First.Equals( item ) );
