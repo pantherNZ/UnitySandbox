@@ -469,12 +469,20 @@ PrefabInstance:
       value: 820
       objectReference: {fileID: 0}
     - target: {fileID: 7513731818606498494, guid: 2c8533b647fe04447bb51fa18c737d12, type: 3}
+      propertyPath: m_Name
+      value: LeftDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7513731818606498494, guid: 2c8533b647fe04447bb51fa18c737d12, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7896215332562904497, guid: 2c8533b647fe04447bb51fa18c737d12, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201980699858354948, guid: 2c8533b647fe04447bb51fa18c737d12, type: 3}
+      propertyPath: m_Name
+      value: RightDoor
       objectReference: {fileID: 0}
     - target: {fileID: 8201980699858354948, guid: 2c8533b647fe04447bb51fa18c737d12, type: 3}
       propertyPath: m_Layer
@@ -9443,7 +9451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 439751953, guid: 12a6f307b2684e342a67e61ac83c62b2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004946501
+      value: 0.00060015137
       objectReference: {fileID: 0}
     - target: {fileID: 478751330, guid: 12a6f307b2684e342a67e61ac83c62b2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9795,7 +9803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1542678344, guid: 12a6f307b2684e342a67e61ac83c62b2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004946501
+      value: 0.00060015137
       objectReference: {fileID: 0}
     - target: {fileID: 1588652527, guid: 12a6f307b2684e342a67e61ac83c62b2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11747,7 +11755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c76ec7281a372ad4383281cf92b375f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elevatorSpeed: 10
+  elevatorSpeed: 3
   doorOpenWidth: 1
   doorOpenSpeed: 1
   allowChangingDirectionWhenOccupied: 0
