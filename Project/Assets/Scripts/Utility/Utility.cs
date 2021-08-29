@@ -74,6 +74,14 @@ public static partial class Utility
     public static float DistanceSq( Transform a, Transform b ) { return DistanceSq( a.position, b.position ); }
     public static float DistanceSq( Vector3 a, Vector3 b ) { return ( a - b ).sqrMagnitude; }
 
+    public static string GetResourcePath( UnityEngine.Object @object )
+    {
+        var resource = AssetDatabase.GetAssetPath( @object );
+        var startIdx = resource.IndexOf( "Resources/" ) + 10;
+        resource = resource.Substring( startIdx, resource.LastIndexOf( '.' ) - startIdx  );
+        return resource;
+    }
+
     public static Sprite CreateSprite( Texture2D texture )
     {
         if( texture == null )

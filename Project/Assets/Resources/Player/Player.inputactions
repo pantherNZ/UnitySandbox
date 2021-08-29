@@ -505,7 +505,7 @@
                 {
                     "name": "modifier",
                     "id": "f93e2a6c-bc3d-4668-a220-c566db82634f",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -538,7 +538,7 @@
                 {
                     "name": "modifier",
                     "id": "11c33282-1ce9-4bdc-a4ea-85e8072bb2c0",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

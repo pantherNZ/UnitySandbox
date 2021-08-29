@@ -317,16 +317,16 @@ public static partial class Extensions
         }
         else if( type == typeof( Material ) )
         {
-            Extensions.Write( writer, AssetDatabase.GetAssetPath( value as Material ) );
+            Extensions.Write( writer, Utility.GetResourcePath( value as Material ) );
         }
         else if( type == typeof( Mesh ) )
         {
-            var path = AssetDatabase.GetAssetPath( value as Mesh );
+            var path = Utility.GetResourcePath( value as Mesh );
             Extensions.Write( writer, path );
         }
         else if( type == typeof( PhysicMaterial ) )
         {
-            Extensions.Write( writer, AssetDatabase.GetAssetPath( value as PhysicMaterial ) );
+            Extensions.Write( writer, Utility.GetResourcePath( value as PhysicMaterial ) );
         }
         else if( type == typeof( string ) )
         {
@@ -380,20 +380,17 @@ public static partial class Extensions
         else if( type == typeof( Material ) )
         {
             var path = reader.ReadString();
-            return Resources.Load<Material>( path.Substring( 0, path.LastIndexOf( '.' ) ) );
+            return Resources.Load<Material>( path );
         }
         else if( type == typeof( Mesh ) )
         {
             var path = reader.ReadString();
-            path = path.Substring( 0, path.LastIndexOf( '.' ) );
-            if( path.StartsWith( "Assets/" ) )
-                path = path.Substring( "Assets/".Length );
             return Resources.Load<Mesh>( path );
         }
         else if( type == typeof( PhysicMaterial ) )
         {
             var path = reader.ReadString();
-            return Resources.Load<PhysicMaterial>( path.Substring( 0, path.LastIndexOf( '.' ) ) );
+            return Resources.Load<PhysicMaterial>( path );
         }
         else if( !lookupTable.ContainsKey( type ) )
             Debug.LogError( "ReadObject Error: Failed to read object of type: " + type.ToString() );

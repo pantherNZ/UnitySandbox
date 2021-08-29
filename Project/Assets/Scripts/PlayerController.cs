@@ -12,12 +12,9 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     public event Action<ToolBoundEventArgs> ToolBoundEvent;
     public event Action<ToolSelectedEventArgs> ToolSelectedEvent;
 
-    [SerializeField]
-    private float moveSpeed = 10.0f;
-    [SerializeField]
-    private float rotateSpeed = 60.0f;
-    [SerializeField]
-    private float raycastLength = 50.0f;
+    [SerializeField] private float moveSpeed = 10.0f;
+    [SerializeField] private float rotateSpeed = 60.0f;
+    [SerializeField] private float raycastLength = 50.0f;
 
     [HideInInspector]
     public Int32 playerId { get; private set; }

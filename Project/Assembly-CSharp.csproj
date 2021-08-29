@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\UI\InvertedMaskImage.cs" />
     <Compile Include="Assets\Scripts\UI\ToolUIElement.cs" />
     <Compile Include="Assets\Scripts\UndoRedoSystem.cs" />
+    <Compile Include="Assets\Scripts\Utility\CustomGravity.cs" />
     <Compile Include="Assets\Scripts\Utility\SyncSolutionUtilities.cs" />
     <Compile Include="Assets\Scripts\Utility\SecureHash.cs" />
     <Compile Include="Assets\Scripts\Tools\WeldTool.cs" />

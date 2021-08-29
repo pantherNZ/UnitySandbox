@@ -49,7 +49,7 @@ public partial class SandboxObject
 
         public SandboxObject CreateObject( GameObject obj, GameObject prefab, Int32 ownerId )
         {
-            var prefabResource = AssetDatabase.GetAssetPath( prefab );
+            var prefabResource = Utility.GetResourcePath( prefab );
             var sandboxObj = new SandboxObject(ownerId, GenerateUniqueId(), prefabResource, obj );
             SetupObject( sandboxObj, obj );
             allObjects[sandboxObj.uniqueId] = sandboxObj;
@@ -107,15 +107,24 @@ public partial class SandboxObject
             writer.Write( sandboxObject.data.uniqueId );
 
             var components = obj.GetComponents<Component>();
-            // Subtract one because we have already serialised sandbox object data
-            writer.Write( components.Length - 1 );
+            var numComponents = 0;
+
+            foreach( var cmp in components )
+            {
+                var type = cmp.GetType();
+                if( type == typeof( SandboxObjectData ) || type == typeof( MeshFilter ) || type == typeof( MeshRenderer ) )
+                    continue;
+                ++numComponents;
+            }
+
+            writer.Write( numComponents );
             Debug.Log( "Writing num components: " + ( components.Length - 1 ) );
 
             foreach( var cmp in components )
             {
                 var type = cmp.GetType();
 
-                if( type == typeof( SandboxObjectData ) )
+                if( type == typeof( SandboxObjectData ) || type == typeof( MeshFilter ) || type == typeof( MeshRenderer ) )
                     continue;
 
                 var defaultInstance = dummyObject.GetComponent( type );
@@ -136,8 +145,9 @@ public partial class SandboxObject
                         continue;
                     if( thisVar.IsDefined( typeof( ObsoleteAttribute ) ) )
                         continue;
-                    if( thisVar.IsDefined( typeof( Mesh ) ) )
+                    if( thisVar.PropertyType == typeof( Mesh ) || thisVar.PropertyType == typeof( Material ) || thisVar.PropertyType == typeof( PhysicMaterial ) )
                         continue;
+
                     // Skip the mesh var in meshfilter because accessing it results in a side effect of copying the mesh and instantiating a new one,
                     // which breaks our serialisation because the path is no longer a valid resource path
                     //if( type == typeof( MeshFilter ) && thisVar.PropertyType == typeof( Mesh ) && thisVar.Name == "mesh" )
