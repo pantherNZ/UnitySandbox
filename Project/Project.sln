@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{5B9FF267-005F-A3BF-219E-FEAE2D8C894F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyDefinition", "AssemblyDefinition.csproj", "{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathCreator", "PathCreator.csproj", "{79B0F3A5-7BB2-0638-D62F-CACB0327460F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathCreatorEditor", "PathCreatorEditor.csproj", "{78B2240F-283A-03F8-4596-58E400DFD655}"
 EndProject
@@ -17,10 +21,18 @@ Global
 		{5B9FF267-005F-A3BF-219E-FEAE2D8C894F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B9FF267-005F-A3BF-219E-FEAE2D8C894F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B9FF267-005F-A3BF-219E-FEAE2D8C894F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79B0F3A5-7BB2-0638-D62F-CACB0327460F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79B0F3A5-7BB2-0638-D62F-CACB0327460F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79B0F3A5-7BB2-0638-D62F-CACB0327460F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79B0F3A5-7BB2-0638-D62F-CACB0327460F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78B2240F-283A-03F8-4596-58E400DFD655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78B2240F-283A-03F8-4596-58E400DFD655}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78B2240F-283A-03F8-4596-58E400DFD655}.Release|Any CPU.ActiveCfg = Release|Any CPU

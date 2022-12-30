@@ -43,10 +43,10 @@ public class PhysTool : IBasePlayerTool
 
             UndoRedoSystem.Instance.AddAction( () =>
             {
-                targ.gameObject.transform.SetTransformData( currentTransform );
+                targ.Value.gameObject.transform.SetTransformData( currentTransform );
             }, () =>
             {
-                targ.gameObject.transform.SetTransformData( startTransformCopy );
+                targ.Value.gameObject.transform.SetTransformData( startTransformCopy );
             } );
 
             ReleaseTarget();
@@ -60,7 +60,8 @@ public class PhysTool : IBasePlayerTool
             {
                 Debug.Log( "Hit: " + hitInfo.rigidbody.gameObject.name );
                 target = hitInfo.rigidbody.gameObject;
-                hitInfo.rigidbody.isKinematic = true;
+                //hitInfo.rigidbody.isKinematic = true;
+                hitInfo.rigidbody.useGravity = false;
                 targetDistance = ( hitInfo.point - playerController.GetFPSCamera().transform.position ).magnitude;
                 targetLocationOffset = Vector3.zero;
                 targetLocationOffset = Quaternion.Euler( playerController.GetLookRotation() ).UnrotateVector( target.transform.position - GetTargetLockLocation() );
@@ -81,8 +82,11 @@ public class PhysTool : IBasePlayerTool
     // Freeze target
     public override bool OnMouse2( bool pressed )
     {
-        if( pressed )
+        if( pressed && target != null )
         {
+            var rigidyBody = target.GetComponent<Rigidbody>();
+            rigidyBody.isKinematic = true;
+            rigidyBody.useGravity = true;
             target = null;
             return true;
         }
@@ -166,7 +170,9 @@ public class PhysTool : IBasePlayerTool
         if( target )
         {
             Debug.Log( "Target Released" );
-            target.GetComponent<Rigidbody>().isKinematic = false;
+            var rigidyBody = target.GetComponent<Rigidbody>();
+            rigidyBody.isKinematic = false;
+            rigidyBody.useGravity = true;
             target = null;
         }
 	}

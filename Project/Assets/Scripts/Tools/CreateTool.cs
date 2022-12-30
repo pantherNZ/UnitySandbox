@@ -32,6 +32,9 @@ public class CreateTool : IBasePlayerTool
             {
                 position = hitInfo.point;
                 rotation = Quaternion.FromToRotation( Vector3.forward, Vector3.up ) * Quaternion.LookRotation( hitInfo.normal );
+
+                var mesh = cubePrefab.GetComponent<Renderer>().bounds;
+                position -= playerController.GetFPSCamera().transform.forward * Mathf.Max( mesh.size.x, mesh.size.y, mesh.size.z );
             }
 
             var newObject = Instantiate( cubePrefab, position, rotation );

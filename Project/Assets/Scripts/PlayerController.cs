@@ -304,7 +304,7 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
         if( obj == null )
             return false;
         var data = obj.GetComponent<SandboxObjectData>();
-        return data != null && data.data.ownerId == playerId;
+        return data != null && ( data.data.ownerId == playerId || data.data.ownerId == 0 );
     }
 
     public void Serialise( System.IO.BinaryWriter writer )
@@ -312,7 +312,7 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
         writer.Write( transform.position );
     }
 
-    public void Deserialise( System.IO.BinaryReader reader )
+    public void Deserialise( int saveVersion, System.IO.BinaryReader reader )
     {
         transform.position = reader.ReadVector3();
     }

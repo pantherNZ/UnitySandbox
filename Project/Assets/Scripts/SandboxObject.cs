@@ -1,13 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public partial class SandboxObject
+[Serializable]
+public partial struct SandboxObject
 {
-    [HideInInspector]
-    public readonly Int32 ownerId;
-
-    [HideInInspector]
-    public readonly UInt32 uniqueId;
+    public Int32 ownerId { get; private set; }
+    public UInt32 uniqueId { get; private set; }
 
     [HideInInspector]
     public GameObject gameObject { get; private set; }
@@ -69,11 +67,12 @@ public partial class SandboxObject
         this.uniqueId = uniqueId;
         this.gameObject = gameObject;
         this.prefabResource = prefabResource;
+        this.storedData = null;
     }
 
     public static implicit operator bool( SandboxObject obj )
     {
-        return obj is object && obj.gameObject;
+        return obj.gameObject;
     }
 
 }

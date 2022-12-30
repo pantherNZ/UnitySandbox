@@ -8,9 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 // Define object manager inside sandbox object so it can access the private members of the object
-using static SandboxObject;
-
-public partial class SandboxObject
+public partial struct SandboxObject
 {
     public class ObjectManager : ISavableComponent
     {
@@ -41,10 +39,10 @@ public partial class SandboxObject
             return newId;
         }
 
-        public SandboxObject GetObject( GameObject obj )
+        public SandboxObject? GetObject( GameObject obj )
         {
             var sandboxObj = obj.GetComponent<SandboxObjectData>();
-            return sandboxObj != null ? sandboxObj.data : null;
+            return sandboxObj != null ? sandboxObj.data : ( SandboxObject? )null;
         }
 
         public SandboxObject CreateObject( GameObject obj, GameObject prefab, Int32 ownerId )
@@ -58,10 +56,7 @@ public partial class SandboxObject
 
         public SandboxObject CreateOrCreateObject( GameObject obj, GameObject prefab, Int32 ownerId )
         {
-            var sandboxObj = GetObject( obj );
-            if( sandboxObj != null )
-                return sandboxObj;
-            return CreateObject( obj, prefab, ownerId );
+            return GetObject( obj ) ?? CreateObject( obj, prefab, ownerId );
         }
 
         public void CreateObject( SandboxObject sandboxObj, GameObject obj )
@@ -273,7 +268,7 @@ public partial class SandboxObject
 
         }
 
-        public void Deserialise( System.IO.BinaryReader reader )
+        public void Deserialise( int saveVersion, System.IO.BinaryReader reader )
         {
 
         }
