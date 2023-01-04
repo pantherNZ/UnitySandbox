@@ -84,6 +84,8 @@
     <Compile Include="Assets\Scripts\Utility\Touchable.cs" />
     <Compile Include="Assets\Scripts\Utility\EventSystem.cs" />
     <Compile Include="Assets\Scripts\Utility\MultiImageButton.cs" />
+    <Compile Include="Assets\Scripts\Utility\ScenePhysicsTool.cs" />
+    <Compile Include="Assets\Scripts\Utility\RigidBodyDrag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Utility\AssemblyDefinition.asmdef" />

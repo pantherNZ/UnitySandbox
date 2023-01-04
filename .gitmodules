@@ -1,3 +1,6 @@
 [submodule "Project\\Assets\\Scripts\\Utility"]
 	path = Project\\Assets\\Scripts\\Utility
 	url = https://github.com/pantherNZ/UnityScriptUtility.git
+[submodule "Project/Assets/VoxReader"]
+	path = Project/Assets/VoxReader
+	url = https://github.com/sandrofigo/VoxReader.git

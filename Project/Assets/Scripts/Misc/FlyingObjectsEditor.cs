@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CustomEditor( typeof( FlyingObjects ) )]
 [CanEditMultipleObjects]
 public class FlyingObjectsEditor : Editor
@@ -16,5 +18,15 @@ public class FlyingObjectsEditor : Editor
     {
         if( DrawDefaultInspector() )
             obj.Init();
+
+        if( GUILayout.Button( "Explode" ) )
+            obj.Explode();
+    }
+
+    public override bool RequiresConstantRepaint()
+    {
+        return true;
     }
 }
+
+#endif

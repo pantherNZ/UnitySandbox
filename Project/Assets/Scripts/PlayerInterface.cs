@@ -38,7 +38,7 @@ public class PlayerInterface : MonoBehaviour
     {
         var toolElement = toolbarUILayout.transform.GetChild( args.toolIndex );
         var text = args.newTool == null ? "Unbound" : args.newTool.GetName();
-        var image = args.newTool == null ? null : Utility.CreateSprite( args.newTool.GetImage() );
+        var image = args.newTool == null || args.newTool.GetImage() == null ? null : Utility.CreateSprite( args.newTool.GetImage() );
         toolElement.GetComponent<ToolUIElement>().SetData( text, image );
     }
 

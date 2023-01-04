@@ -15,6 +15,8 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float rotateSpeed = 60.0f;
     [SerializeField] private float raycastLength = 50.0f;
+    [SerializeField] private bool movementEnabled = true;
+    [SerializeField] private bool rotationEnabled = true;
 
     [HideInInspector]
     public Int32 playerId { get; private set; }
@@ -259,7 +261,7 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
 
     private void Move( Vector2 direction )
     {
-        if( direction.sqrMagnitude < 0.01 )
+        if( direction.sqrMagnitude < 0.01 || !movementEnabled )
             return;
         var scaledMoveSpeed = moveSpeed * Time.fixedDeltaTime;
         // For simplicity's sake, we just keep movement in a single plane here. Rotate
@@ -271,7 +273,7 @@ public partial class PlayerController : MonoBehaviour, PlayerInput.IPlayerAction
 
     private void Look( Vector2 rotate )
     {
-        if( rotate.sqrMagnitude < 0.01 )
+        if( rotate.sqrMagnitude < 0.01 || !rotationEnabled )
             return;
         var scaledRotateSpeed = rotateSpeed * Time.fixedDeltaTime;
         rotation.y += rotate.x * scaledRotateSpeed;

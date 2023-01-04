@@ -19,6 +19,7 @@ public class ElevatorHandler : MonoBehaviour
     [SerializeField] float elevatorSpeed = 10.0f;
     [SerializeField] float doorOpenWidth = 2.0f;
     [SerializeField] float doorOpenSpeed = 1.0f;
+    [SerializeField] float elevatorMovementDelaySec = 0.5f;
 
     [Serializable]
     public class FloorData
@@ -211,6 +212,7 @@ public class ElevatorHandler : MonoBehaviour
         StartCoroutine( MoveDoors( leftDoor.transform, rightDoor.transform, open ) );
         yield return MoveDoors( floors[currentFloor].leftDoor.transform, floors[currentFloor].rightDoor.transform, open );
         state = open ? State.StationaryDoorsOpen : State.StationaryDoorsClosed;
+        yield return new WaitForSeconds( elevatorMovementDelaySec );
     }
 
     private IEnumerator MoveDoors( Transform left, Transform right, bool open )

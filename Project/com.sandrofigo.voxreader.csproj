@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{6CDB4719-1D28-38FF-BF92-A07FF7EAE25F}</ProjectGuid>
+    <ProjectGuid>{300DEFDA-AB82-D7F1-4057-4117C7C11909}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>com.sandrofigo.voxreader</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -48,7 +48,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.16</UnityProjectGeneratorVersion>
-    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2021.3.6f1</UnityVersion>
   </PropertyGroup>
@@ -56,13 +56,46 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\SpecularLightingEditor.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\WaterBaseEditor.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\WaterEditorUtility.cs" />
-    <Compile Include="Assets\PathCreator\Examples\Scripts\Editor\PathSceneToolEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\ScriptPickerPropertyDrawer.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Helper.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IModel.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkTypeMapping.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\Chunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\RawVoxel.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\SizeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Model.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\VoxFile.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Voxel.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IGroupNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\NodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\FormatParser.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\GroupNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\PaletteChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\VoxelChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IVoxFile.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Vector3.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IShapeNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\ShapeNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\ISizeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IVoxelChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPalette.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Color.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Palette.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\TransformNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkFactory.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\INodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPackChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPaletteChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\PackChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\ITransformNodeChunk.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Extensions\ByteArrayExtension.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Frame.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Exceptions\InvalidDataException.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkType.cs" />
+    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\VoxReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\com.sandrofigo.voxreader.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -139,9 +172,6 @@
     </Reference>
     <Reference Include="UnityEngine.LocalizationModule">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.NVIDIAModule">
-      <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\Managed\UnityEngine\UnityEngine.NVIDIAModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll</HintPath>
@@ -358,9 +388,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -749,99 +776,14 @@
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.TestRunner">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Services.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Services.Core.Analytics">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Services.Core.Environments">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="com.sandrofigo.voxreader">
-      <HintPath>Library\ScriptAssemblies\com.sandrofigo.voxreader.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Addressables">
-      <HintPath>Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Addressables.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.CacheServer">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.CacheServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ResourceManager">
-      <HintPath>Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline">
-      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{5B9FF267-005F-A3BF-219E-FEAE2D8C894F}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="AssemblyDefinition.csproj">
-      <Project>{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}</Project>
-      <Name>AssemblyDefinition</Name>
-    </ProjectReference>
-    <ProjectReference Include="PathCreator.csproj">
-      <Project>{79B0F3A5-7BB2-0638-D62F-CACB0327460F}</Project>
-      <Name>PathCreator</Name>
-    </ProjectReference>
-    <ProjectReference Include="PathCreatorEditor.csproj">
-      <Project>{78B2240F-283A-03F8-4596-58E400DFD655}</Project>
-      <Name>PathCreatorEditor</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
