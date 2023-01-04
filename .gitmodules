@@ -3,4 +3,4 @@
 	url = https://github.com/pantherNZ/UnityScriptUtility.git
 [submodule "Project/Assets/VoxReader"]
 	path = Project/Assets/VoxReader
-	url = https://github.com/sandrofigo/VoxReader.git
+	url = https://github.com/pantherNZ/VoxReader.git

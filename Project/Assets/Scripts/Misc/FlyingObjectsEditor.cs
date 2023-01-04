@@ -17,10 +17,15 @@ public class FlyingObjectsEditor : Editor
     public override void OnInspectorGUI()
     {
         if( DrawDefaultInspector() )
-            obj.Init();
+        {
+            //obj.Init();
+        }
 
         if( GUILayout.Button( "Explode" ) )
             obj.Explode();
+
+        if( GUILayout.Button( "Re-Initialise" ) )
+            obj.Init();
     }
 
     public override bool RequiresConstantRepaint()

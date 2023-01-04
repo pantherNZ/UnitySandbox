@@ -56,46 +56,47 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Helper.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IModel.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkTypeMapping.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\Chunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\RawVoxel.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\SizeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Model.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\VoxFile.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Voxel.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IGroupNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\NodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\FormatParser.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\GroupNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\PaletteChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\VoxelChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IVoxFile.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Vector3.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IShapeNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\ShapeNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\ISizeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IVoxelChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPalette.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Color.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Palette.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\TransformNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkFactory.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\INodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPackChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\IPaletteChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Chunks\PackChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Interfaces\ITransformNodeChunk.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Extensions\ByteArrayExtension.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Frame.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\Exceptions\InvalidDataException.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\ChunkType.cs" />
-    <Compile Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\VoxReader.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Helper.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IModel.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\ChunkTypeMapping.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\Chunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\RawVoxel.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\SizeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Model.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\VoxFile.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Voxel.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IGroupNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\NodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\FormatParser.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\GroupNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\PaletteChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\VoxelChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IVoxFile.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Vector3.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IShapeNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\ShapeNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\ISizeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IVoxelChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IPalette.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Color.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Palette.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\TransformNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\ChunkFactory.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\INodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IPackChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\IPaletteChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\PackChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Interfaces\ITransformNodeChunk.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Extensions\ByteArrayExtension.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Frame.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Exceptions\InvalidDataException.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\ChunkType.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\VoxReader.cs" />
+    <Compile Include="Assets\VoxReader\VoxReader\Chunks\RootChunk.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Library\PackageCache\com.sandrofigo.voxreader@2.1.0\com.sandrofigo.voxreader.asmdef" />
+    <None Include="Assets\VoxReader\VoxReader\com.sandrofigo.voxreader.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -356,17 +357,8 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>Assets\Scripts\Utility\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>Library\PackageCache\com.unity.burst@1.6.6\Unity.Burst.Unsafe.dll</HintPath>
@@ -380,14 +372,8 @@
     <Reference Include="Unity.Burst.Cecil">
       <HintPath>Library\PackageCache\com.unity.burst@1.6.6\Unity.Burst.CodeGen\Unity.Burst.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.18\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Burst.Cecil.Rocks">
       <HintPath>Library\PackageCache\com.unity.burst@1.6.6\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

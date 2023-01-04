@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 [ExecuteAlways]
 public class FlyingObjects : MonoBehaviour
@@ -36,7 +36,9 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] float explodeDelaySec = 10.0f;
 
     [Header( "Voxels" )]
-    VoxReader.Interfaces.IVoxFile voxelData;
+    VoxReader.Interfaces.IVoxFile voxelFile;
+    VoxReader.Chunks.VoxelChunk voxelData;
+    [SerializeField] float voxelScale = 1.0f;
 
     private float time;
     private float inactiveTimer;
@@ -58,7 +60,25 @@ public class FlyingObjects : MonoBehaviour
     private void ConstructCube()
     {
         rigidBodies.Add( Instantiate( objectPrefab, transform ).GetComponent<Rigidbody>() );
+        rigidBodies.Back().transform.localScale = new Vector3( voxelScale, voxelScale, voxelScale );
         SetPhysicsEnabled( rigidBodies.Back(), physicsMovement );
+        UpdatePosition( false, rigidBodies.Back().transform, rigidBodies.Count - 1 );
+    }
+
+    private void ReadVoxelData()
+    {
+        try
+        {
+            voxelFile = VoxReader.VoxReader.Read( Path.Combine( Directory.GetCurrentDirectory(), voxelFilePath ) );
+        }
+        catch( Exception e )
+        {
+            Debug.LogError( "Failed to load voxel data: " + e.Message );
+            useVoxelPositions = false;
+            return;
+        }
+
+        voxelData = voxelFile.ChunkRoot.GetChild<VoxReader.Chunks.VoxelChunk>();
     }
 
     public void Init()
@@ -71,20 +91,11 @@ public class FlyingObjects : MonoBehaviour
         if( objectPrefab != null )
         {
             if( useVoxelPositions )
-            {
-                voxelData = VoxReader.VoxReader.Read( Path.Combine( Directory.GetCurrentDirectory(), voxelFilePath ) );
-                //model = voxFile.Models[0];
-                //foreach( var voxel in voxelData.Chunks .Voxels )
-                //    ConstructCube();
-            }
-            else
-            {
-                for( int i = 0; i < objectCount; ++i )
-                    ConstructCube();
-            }
-        }
+                ReadVoxelData();
 
-        UpdatePositions( true );
+            for( int i = 0; i < GetObjectCount(); ++i )
+                ConstructCube();
+        }
 
         //if( model != null )
             // If is NOT animation then pause movement processing
@@ -100,7 +111,7 @@ public class FlyingObjects : MonoBehaviour
         foreach( var child in rigidBodies )
         {
             SetPhysicsEnabled( child, false );
-            child.AddExplosionForce( explosionForce, transform.position, radius + ( scaleRadiusByObjectCount * objectCount ) );
+            child.AddExplosionForce( explosionForce, transform.position, radius + ( scaleRadiusByObjectCount * GetObjectCount() ) );
             inactiveTimer = explodeDelaySec;
         }
     }
@@ -109,8 +120,17 @@ public class FlyingObjects : MonoBehaviour
     {
         time += Time.deltaTime * spinSpeed * Mathf.Deg2Rad;
 
+        if( useVoxelPositions && voxelData == null )
+            ReadVoxelData();
+
+        while( transform.childCount > GetObjectCount() )
+            transform.GetChild( transform.childCount - 1 ).DestroyGameObject();
+
+        while( transform.childCount < GetObjectCount() )
+            ConstructCube();
+
         if( !physicsMovement || !Application.isPlaying )
-            UpdatePositions( false );
+            UpdatePositions( true );
 
         if( inactiveTimer > 0.0f )
         {
@@ -122,10 +142,15 @@ public class FlyingObjects : MonoBehaviour
         }
     }
 
+    int GetObjectCount()
+    {
+        return ( useVoxelPositions && voxelData != null ) ? voxelData.Voxels.Length : objectCount;
+    }
+
     void FixedUpdate()
     {
         if( physicsMovement && Application.isPlaying )
-            UpdatePositions( false );
+            UpdatePositions( true );
     }
 
     Vector3 CalculatePos( float angle, float offset )
@@ -133,11 +158,11 @@ public class FlyingObjects : MonoBehaviour
         return new Vector3( Mathf.Sin( angle ), 0.0f, Mathf.Cos( angle ) ) * offset;
     }
 
-    void MoveToPos( bool init, Transform obj, Rigidbody body, Vector3 desiredPos )
+    void MoveToPos( bool interp, Transform obj, Rigidbody body, Vector3 desiredPos )
     {
         var direction = desiredPos - obj.localPosition;
 
-        if( interpSpeed <= 0.0f || init )
+        if( interpSpeed <= 0.0f || !interp )
         {
             obj.localRotation = rotateWithMovement ? Quaternion.LookRotation( desiredPos - obj.localPosition, Vector3.up ) : Quaternion.identity;
             obj.localPosition = desiredPos;
@@ -167,29 +192,30 @@ public class FlyingObjects : MonoBehaviour
         obj.localRotation = rotateWithMovement ? Quaternion.LookRotation( directionNorm, Vector3.up ) : Quaternion.identity;
     }
 
-    void UpdatePositions( bool init )
+    void UpdatePosition( bool interp, Transform child, int idx )
+    {
+        if( useVoxelPositions && voxelData != null )
+        {
+            var voxelPos = voxelData.Voxels[idx].Position;
+            var localPos = new Vector3( voxelPos.X, voxelPos.Z, voxelPos.Y ) * voxelScale;
+            MoveToPos( interp, child, rigidBodies[idx], localPos );
+        }
+        else
+        {
+            float angle = ( Mathf.PI * 2.0f / GetObjectCount() ) * idx + time;
+            float offset = radius + ( scaleRadiusByObjectCount * GetObjectCount() );
+            MoveToPos( interp, child, rigidBodies[idx], CalculatePos( angle, offset ) );
+        }
+    }
+
+    void UpdatePositions( bool interp )
     {
         if( inactiveTimer == 0.0f )
         {
-            if( voxelData != null )
+            for( int i = 0; i < transform.childCount; ++i )
             {
-                for( int i = 0; i < transform.childCount; ++i )
-                {
-                    var child = transform.GetChild( i );
-                    //var voxelPos = voxelData. Voxels[i].Position;
-                    //var localPos = new Vector3( voxelPos.X, voxelPos.Z, voxelPos.Y );
-                    //MoveToPos( init, child, rigidBodies[i], localPos );
-                }
-            }
-            else
-            {
-                for( int i = 0; i < transform.childCount; ++i )
-                {
-                    float angle = ( Mathf.PI * 2.0f / objectCount ) * i + time;
-                    float offset = radius + ( scaleRadiusByObjectCount * objectCount );
-                    var child = transform.GetChild( i );
-                    MoveToPos( init, child, rigidBodies[i], CalculatePos( angle, offset ) );
-                }
+                var child = transform.GetChild( i );
+                UpdatePosition( interp, child, i );
             }
         }
 
