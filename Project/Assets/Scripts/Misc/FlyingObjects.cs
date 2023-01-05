@@ -24,6 +24,7 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] bool rotateWithMovement;
     [SerializeField] float interpSpeed = 1.0f;
     [SerializeField] bool useVoxelPositions;
+    bool _useVoxelPositions;
 
     [Header( "Physics" )]
     [SerializeField] bool physicsMovement;
@@ -33,7 +34,10 @@ public class FlyingObjects : MonoBehaviour
 
     [Header( "Explode" )]
     [SerializeField] float explosionForce = 10.0f;
+    [SerializeField] float explosionForceVariance = 10.0f;
     [SerializeField] float explodeDelaySec = 10.0f;
+    [SerializeField] float explosionHeightScaleMin;
+    [SerializeField] float explosionHeightScaleMax;
 
     [Header( "Voxels" )]
     VoxReader.Interfaces.IVoxFile voxelFile;
@@ -60,9 +64,10 @@ public class FlyingObjects : MonoBehaviour
     private void ConstructCube()
     {
         rigidBodies.Add( Instantiate( objectPrefab, transform ).GetComponent<Rigidbody>() );
-        rigidBodies.Back().transform.localScale = new Vector3( voxelScale, voxelScale, voxelScale );
+        rigidBodies.Back().transform.localScale = new Vector3( voxelScale, voxelScale, voxelScale ) / 2.0f;
         SetPhysicsEnabled( rigidBodies.Back(), physicsMovement );
         UpdatePosition( false, rigidBodies.Back().transform, rigidBodies.Count - 1 );
+        UpdateColour( false, rigidBodies.Back().transform, rigidBodies.Count - 1 );
     }
 
     private void ReadVoxelData()
@@ -110,24 +115,35 @@ public class FlyingObjects : MonoBehaviour
 
         foreach( var child in rigidBodies )
         {
-            SetPhysicsEnabled( child, false );
-            child.AddExplosionForce( explosionForce, transform.position, radius + ( scaleRadiusByObjectCount * GetObjectCount() ) );
+            SetPhysicsEnabled( child, true );
+            var direction = UnityEngine.Random.insideUnitSphere.SetY( explosionHeightScaleMin + UnityEngine.Random.value * ( explosionHeightScaleMax - explosionHeightScaleMin ) );
+            var force = explosionForce + ( UnityEngine.Random.value - 0.5f ) * explosionForceVariance;
+            child.AddForce( direction * force );
             inactiveTimer = explodeDelaySec;
         }
     }
 
     void Update()
     {
-        time += Time.deltaTime * spinSpeed * Mathf.Deg2Rad;
-
         if( useVoxelPositions && voxelData == null )
             ReadVoxelData();
 
-        while( transform.childCount > GetObjectCount() )
-            transform.GetChild( transform.childCount - 1 ).DestroyGameObject();
+        while( rigidBodies.Count > GetObjectCount() )
+            rigidBodies.PopBack().DestroyGameObject();
 
         while( transform.childCount < GetObjectCount() )
             ConstructCube();
+
+        // Changed
+        if( useVoxelPositions != _useVoxelPositions )
+        {
+            _useVoxelPositions = useVoxelPositions;
+
+            if( useVoxelPositions && voxelData != null )
+            {
+                UpdateColours( true );
+            }
+        }
 
         if( !physicsMovement || !Application.isPlaying )
             UpdatePositions( true );
@@ -192,6 +208,39 @@ public class FlyingObjects : MonoBehaviour
         obj.localRotation = rotateWithMovement ? Quaternion.LookRotation( directionNorm, Vector3.up ) : Quaternion.identity;
     }
 
+    void UpdateColour( bool interp, Transform child, int idx )
+    {
+        if( useVoxelPositions && voxelData != null )
+        {
+            var voxelColour = voxelFile.Palette.Colors[voxelData.Voxels[idx].ColorIndex];
+            var colour = new Color( 
+                voxelColour.R / 255.0f
+                , voxelColour.G / 255.0f
+                , voxelColour.B / 255.0f
+                , voxelColour.A / 255.0f );
+            var mesh = child.GetComponent<MeshRenderer>();
+            mesh.sharedMaterial = new Material( mesh.sharedMaterial )
+            {
+                color = colour
+            };
+        }
+        else
+        {
+            float angle = ( Mathf.PI * 2.0f / GetObjectCount() ) * idx + time;
+            float offset = radius + ( scaleRadiusByObjectCount * GetObjectCount() );
+            
+        }
+    }
+
+    void UpdateColours( bool interp )
+    {
+        for( int i = 0; i < transform.childCount; ++i )
+        {
+            var child = transform.GetChild( i );
+            UpdateColour( interp, child, i );
+        }
+    }
+
     void UpdatePosition( bool interp, Transform child, int idx )
     {
         if( useVoxelPositions && voxelData != null )
@@ -212,6 +261,8 @@ public class FlyingObjects : MonoBehaviour
     {
         if( inactiveTimer == 0.0f )
         {
+            time += Time.deltaTime * spinSpeed * Mathf.Deg2Rad;
+
             for( int i = 0; i < transform.childCount; ++i )
             {
                 var child = transform.GetChild( i );

@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Utility\FPSCounter.cs" />
     <Compile Include="Assets\Scripts\Utility\EventDispatcher.cs" />
     <Compile Include="Assets\Scripts\Utility\InputPriorityButton.cs" />
+    <Compile Include="Assets\Scripts\Utility\RigidBodyDrag.cs" />
     <Compile Include="Assets\Scripts\Utility\xxHash.cs" />
     <Compile Include="Assets\Scripts\Utility\SecureHash.cs" />
     <Compile Include="Assets\Scripts\Utility\EventDispatcherV2.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Scripts\Utility\Quad.cs" />
     <Compile Include="Assets\Scripts\Utility\UndoRedoSystem.cs" />
     <Compile Include="Assets\Scripts\Utility\FunctionTimer.cs" />
+    <Compile Include="Assets\Scripts\Utility\ScenePhysicsTool.cs" />
     <Compile Include="Assets\Scripts\Utility\CustomGravity.cs" />
     <Compile Include="Assets\Scripts\Utility\SimplexNoise.cs" />
     <Compile Include="Assets\Scripts\Utility\InputPriority.cs" />
@@ -84,8 +86,6 @@
     <Compile Include="Assets\Scripts\Utility\Touchable.cs" />
     <Compile Include="Assets\Scripts\Utility\EventSystem.cs" />
     <Compile Include="Assets\Scripts\Utility\MultiImageButton.cs" />
-    <Compile Include="Assets\Scripts\Utility\ScenePhysicsTool.cs" />
-    <Compile Include="Assets\Scripts\Utility\RigidBodyDrag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Utility\AssemblyDefinition.asmdef" />

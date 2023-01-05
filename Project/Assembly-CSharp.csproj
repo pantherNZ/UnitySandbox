@@ -66,19 +66,19 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\TargetFieldOfView.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\DynamicShadowSettings.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\SimpleMouseRotator.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\FlyingObjectsEditor.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\LerpControlledBob.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\PlatformSpecificContent.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\VirtualInput.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Scripts\SlowMoButton.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Scripts\LevelReset.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\Suspension.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\Scripts\UI\ToolUIElement.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\Suspension.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\HandHeldCam.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Aircraft\Scripts\AeroplanePropellerAnimator.cs" />
     <Compile Include="Assets\Scripts\PlayerInterface.cs" />
@@ -109,6 +109,7 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
+    <Compile Include="Assets\Scripts\Misc\ScriptPickerAttribute.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\TiltInput.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
     <Compile Include="Assets\Scripts\WorldButton.cs" />
@@ -136,16 +137,16 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ExtinguishableParticleSystem.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\ParticleSystemDestroyer.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Aircraft\Scripts\LandingGear.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\ObjectResetter.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\AutoMobileShaderSwitch.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Aircraft\Scripts\AeroplaneControlSurfaceAnimator.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathSceneTool.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\FirstPersonCharacter\Scripts\RigidbodyFirstPersonController.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Scripts\SandboxObject.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\AlphaButtonClickMask.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -165,21 +166,20 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\Water.cs" />
     <Compile Include="Assets\Scripts\UI\ConsoleManager.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\MobileControlRig.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\MobileControlRig.cs" />
     <Compile Include="Assets\Scripts\GameEvents.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\FirstPersonCharacter\Scripts\HeadBob.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\LookatTarget.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\CarAudio.cs" />
-    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\RollerBall\Scripts\BallUserControl.cs" />
+    <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
     <Compile Include="Assets\Scripts\Tools\PhysTool.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\RoadMeshCreator.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\Hose.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FPSCounter.cs" />
-    <Compile Include="Assets\Scripts\Misc\ScriptPickerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Misc\StandardAssets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
@@ -868,6 +868,9 @@
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>D:\Software\Unity\2021.3.6f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -879,6 +882,9 @@
     </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -892,25 +898,19 @@
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AssemblyDefinition.csproj">
       <Project>{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}</Project>
       <Name>AssemblyDefinition</Name>
     </ProjectReference>
-    <ProjectReference Include="PathCreator.csproj">
-      <Project>{79B0F3A5-7BB2-0638-D62F-CACB0327460F}</Project>
-      <Name>PathCreator</Name>
-    </ProjectReference>
     <ProjectReference Include="PathCreatorEditor.csproj">
       <Project>{78B2240F-283A-03F8-4596-58E400DFD655}</Project>
       <Name>PathCreatorEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PathCreator.csproj">
+      <Project>{79B0F3A5-7BB2-0638-D62F-CACB0327460F}</Project>
+      <Name>PathCreator</Name>
     </ProjectReference>
     <ProjectReference Include="com.sandrofigo.voxreader.csproj">
       <Project>{300DEFDA-AB82-D7F1-4057-4117C7C11909}</Project>

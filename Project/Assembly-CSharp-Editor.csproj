@@ -56,14 +56,14 @@
     <Analyzer Include="D:\Software\Visual Studio 2022\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Editor\BuildAndRun.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\ScriptPickerPropertyDrawer.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Editor\Water\Water4\WaterEditorUtility.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\Editor\PathSceneToolEditor.cs" />
-    <Compile Include="Assets\Scripts\Editor\ScriptPickerPropertyDrawer.cs" />
-    <Compile Include="Assets\Scripts\Editor\BuildAndRun.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -741,6 +741,9 @@
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -752,6 +755,9 @@
     </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -765,12 +771,6 @@
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
@@ -781,13 +781,13 @@
       <Project>{3445ED9E-3B5E-B0F6-6EDD-EA253DB8D5DB}</Project>
       <Name>AssemblyDefinition</Name>
     </ProjectReference>
-    <ProjectReference Include="PathCreator.csproj">
-      <Project>{79B0F3A5-7BB2-0638-D62F-CACB0327460F}</Project>
-      <Name>PathCreator</Name>
-    </ProjectReference>
     <ProjectReference Include="PathCreatorEditor.csproj">
       <Project>{78B2240F-283A-03F8-4596-58E400DFD655}</Project>
       <Name>PathCreatorEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PathCreator.csproj">
+      <Project>{79B0F3A5-7BB2-0638-D62F-CACB0327460F}</Project>
+      <Name>PathCreator</Name>
     </ProjectReference>
     <ProjectReference Include="com.sandrofigo.voxreader.csproj">
       <Project>{300DEFDA-AB82-D7F1-4057-4117C7C11909}</Project>
