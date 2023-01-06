@@ -66,7 +66,6 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\TargetFieldOfView.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\DynamicShadowSettings.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\SimpleMouseRotator.cs" />
-    <Compile Include="Assets\Scripts\Misc\FlyingObjectsEditor.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\LerpControlledBob.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Assets\Scripts\PlayerInterface.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\CarController.cs" />
-    <Compile Include="Assets\Scripts\Misc\FlyingObjects.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\SmoothFollow.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
@@ -180,6 +178,12 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingObjectsEditor.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingObjects.cs" />
+    <Compile Include="Assets\Scripts\Voxels\VoxelData.cs" />
+    <Compile Include="Assets\Scripts\Voxels\MathShapeData.cs" />
+    <Compile Include="Assets\Scripts\Voxels\SteeringData.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Misc\StandardAssets\Prototyping\Shaders\WorldCoordDiffuse.shader" />

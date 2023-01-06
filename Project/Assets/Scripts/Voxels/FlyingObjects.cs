@@ -7,30 +7,16 @@ using UnityEngine;
 [ExecuteAlways]
 public class FlyingObjects : MonoBehaviour
 {
-    [Header( "Data" )]
-    [SerializeField] GameObject objectPrefab;
-    [Range( 1, 100 )]
-    [SerializeField] int objectCount = 5;
-    [ScriptPicker]
-    [SerializeField] string voxelFilePath;
-
-    [Header( "Positioning" )]
-    [Range( -5.0f, 5.0f )]
-    [SerializeField] float radius = 1.0f;
-    [Range( 1.0f, 500.0f )]
-    [SerializeField] float spinSpeed = 0.0f;
-    [Range( 0.0f, 1.0f )]
-    [SerializeField] float scaleRadiusByObjectCount = 0.0f;
-    [SerializeField] bool rotateWithMovement;
+    [Header( "Voxels" )]
+    [SerializeField] GameObject cubePrefab;
+    [SerializeField] float cubeScale = 1.0f;
     [SerializeField] float interpSpeed = 1.0f;
-    [SerializeField] bool useVoxelPositions;
-    bool _useVoxelPositions;
 
-    [Header( "Physics" )]
-    [SerializeField] bool physicsMovement;
-    [SerializeField] bool simulateInEditor;
-    [SerializeField] float physicsSpeed = 1.0f;
-    [SerializeField] float physicsDamping = 1.0f;
+    [Header( "Behaviour" )]
+    [SerializeField] FlyingBehaviourType behaviour = FlyingBehaviourType.MathShape;
+    [SerializeField] int behaviourIndex;
+    FlyingBehaviourType _behaviour = FlyingBehaviourType.MathShape;
+    BehaviourData currentbehaviourData;
 
     [Header( "Explode" )]
     [SerializeField] float explosionForce = 10.0f;
@@ -38,11 +24,6 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] float explodeDelaySec = 10.0f;
     [SerializeField] float explosionHeightScaleMin;
     [SerializeField] float explosionHeightScaleMax;
-
-    [Header( "Voxels" )]
-    VoxReader.Interfaces.IVoxFile voxelFile;
-    VoxReader.Chunks.VoxelChunk voxelData;
-    [SerializeField] float voxelScale = 1.0f;
 
     private float time;
     private float inactiveTimer;
@@ -63,27 +44,16 @@ public class FlyingObjects : MonoBehaviour
 
     private void ConstructCube()
     {
-        rigidBodies.Add( Instantiate( objectPrefab, transform ).GetComponent<Rigidbody>() );
-        rigidBodies.Back().transform.localScale = new Vector3( voxelScale, voxelScale, voxelScale ) / 2.0f;
-        SetPhysicsEnabled( rigidBodies.Back(), physicsMovement );
+        rigidBodies.Add( Instantiate( cubePrefab, transform ).GetComponent<Rigidbody>() );
+        rigidBodies.Back().transform.localScale = new Vector3( cubeScale, cubeScale, cubeScale ) / 2.0f;
+        SetPhysicsEnabled( rigidBodies.Back(), false );
         UpdatePosition( false, rigidBodies.Back().transform, rigidBodies.Count - 1 );
         UpdateColour( false, rigidBodies.Back().transform, rigidBodies.Count - 1 );
     }
 
     private void ReadVoxelData()
     {
-        try
-        {
-            voxelFile = VoxReader.VoxReader.Read( Path.Combine( Directory.GetCurrentDirectory(), voxelFilePath ) );
-        }
-        catch( Exception e )
-        {
-            Debug.LogError( "Failed to load voxel data: " + e.Message );
-            useVoxelPositions = false;
-            return;
-        }
 
-        voxelData = voxelFile.ChunkRoot.GetChild<VoxReader.Chunks.VoxelChunk>();
     }
 
     public void Init()
@@ -93,7 +63,7 @@ public class FlyingObjects : MonoBehaviour
 
         rigidBodies.Clear();
 
-        if( objectPrefab != null )
+        if( cubePrefab != null )
         {
             if( useVoxelPositions )
                 ReadVoxelData();
@@ -271,7 +241,7 @@ public class FlyingObjects : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        if( ( physicsMovement || inactiveTimer > 0.0f ) && !Application.isPlaying && ( simulateInEditor || inactiveTimer > 0.0f ) )
+        if( inactiveTimer > 0.0f && !Application.isPlaying )
         {
             physicsTimestep += Time.deltaTime;
 
