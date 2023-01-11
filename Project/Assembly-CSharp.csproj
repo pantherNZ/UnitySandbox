@@ -66,11 +66,14 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\TargetFieldOfView.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\DynamicShadowSettings.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\SimpleMouseRotator.cs" />
+    <Compile Include="Assets\Scripts\Voxels\ShapeModels\SphereShapeData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\LerpControlledBob.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
+    <Compile Include="Assets\Scripts\Voxels\SteeringModels\SteeringData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\PlatformSpecificContent.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\VirtualInput.cs" />
+    <Compile Include="Assets\Scripts\Voxels\ShapeModels\CircleShapeData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Scripts\SlowMoButton.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Scripts\LevelReset.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Assets\Scripts\PlayerInterface.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\CarController.cs" />
+    <Compile Include="Assets\Scripts\Voxels\VoxelModels\VoxelData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\SmoothFollow.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Cameras\Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
@@ -96,6 +100,7 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\TimedObjectActivator.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathPlacer.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Aircraft\Scripts\JetParticleEffect.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingObjects.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Aircraft\Scripts\AeroplaneUserControl2Axis.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water (Basic)\Scripts\WaterBasic.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\WaypointCircuit.cs" />
@@ -109,6 +114,7 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
     <Compile Include="Assets\Scripts\Misc\ScriptPickerAttribute.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\TiltInput.cs" />
+    <Compile Include="Assets\Scripts\Voxels\ShapeModels\MathShapeData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
     <Compile Include="Assets\Scripts\WorldButton.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
@@ -154,10 +160,12 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FOVKick.cs" />
     <Compile Include="Assets\Scripts\SandboxObjectData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\Restarter.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingBehaviour.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\CarUserControl.cs" />
     <Compile Include="Assets\Scripts\Tools\CreateTool.cs" />
+    <Compile Include="Assets\Scripts\Voxels\FlyingObjectsEditor.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\CrossPlatformInput\Scripts\InputAxisScrollbar.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
@@ -178,12 +186,6 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FPSCounter.cs" />
-    <Compile Include="Assets\Scripts\Voxels\FlyingObjectsEditor.cs" />
-    <Compile Include="Assets\Scripts\Voxels\FlyingObjects.cs" />
-    <Compile Include="Assets\Scripts\Voxels\VoxelData.cs" />
-    <Compile Include="Assets\Scripts\Voxels\MathShapeData.cs" />
-    <Compile Include="Assets\Scripts\Voxels\SteeringData.cs" />
-    <Compile Include="Assets\Scripts\Voxels\FlyingBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Misc\StandardAssets\Prototyping\Shaders\WorldCoordDiffuse.shader" />

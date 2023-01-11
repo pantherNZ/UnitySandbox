@@ -20,13 +20,21 @@ public enum TransitionType
 
 // Base class
 [Serializable]
-public abstract class BehaviourData
+public abstract class BehaviourData : ScriptableObject
 {
-    public int totalObjectCount;
-    public float speed;
-    public float cubeScale;
+    [SerializeField] protected int objectCount = 10;
+    [SerializeField] protected float speed;
+    public float cubeScale = 1.0f;
+    protected float timer;
 
-    public abstract IEnumerator Construct();
-    public abstract Vector3 Animate( Vector3 pos );
-    public virtual void Update( float delta ) { }
+    public virtual int ObjectCount => objectCount;
+
+    public abstract Vector3 GetPosition( int idx );
+    public virtual Color? GetColour( int idx ) { return null; }
+    public virtual Quaternion GetRotation( int idx ) { return Quaternion.identity; }
+
+    public virtual void Process() 
+    {
+        timer += Time.deltaTime * speed;
+    }
 }
