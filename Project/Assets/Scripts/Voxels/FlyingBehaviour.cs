@@ -22,13 +22,13 @@ public enum TransitionType
 [Serializable]
 public abstract class BehaviourData : ScriptableObject
 {
+    [Range(1,500)]
     [SerializeField] protected int objectCount = 10;
     [SerializeField] protected float speed;
     public float cubeScale = 1.0f;
     protected float timer;
 
     public virtual int ObjectCount => objectCount;
-
     public abstract Vector3 GetPosition( int idx );
     public virtual Color? GetColour( int idx ) { return null; }
     public virtual Quaternion GetRotation( int idx ) { return Quaternion.identity; }
