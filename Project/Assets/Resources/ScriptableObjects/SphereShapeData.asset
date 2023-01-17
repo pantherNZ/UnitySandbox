@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16bb38418eff674c913dfaac91c5974, type: 3}
   m_Name: SphereShapeData
   m_EditorClassIdentifier: 
-  objectCount: 10
+  objectCount: 87
   speed: 0
   cubeScale: 1
-  radius: 0
+  radius: 1.97
+  matchSphereRotation: 0

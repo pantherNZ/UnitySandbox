@@ -7,6 +7,7 @@ using UnityEngine;
 public class SphereShapeData : MathShapeData
 {
     [SerializeField] float radius;
+    [SerializeField] bool matchSphereRotation;
 
     public override Vector3 GetPosition( int idx )
     {
@@ -17,5 +18,12 @@ public class SphereShapeData : MathShapeData
         var x = Mathf.Cos( theta ) * r;
         var z = Mathf.Sin( theta ) * r;
         return new Vector3( x, y, z ) * radius ;
+    }
+
+    public override Quaternion GetRotation( int idx )
+    {
+        if( matchSphereRotation )
+            return Quaternion.LookRotation( GetPosition( idx ).normalized, Vector3.up );
+        return Quaternion.identity;
     }
 }

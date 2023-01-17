@@ -160,7 +160,7 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FOVKick.cs" />
     <Compile Include="Assets\Scripts\SandboxObjectData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\Restarter.cs" />
-    <Compile Include="Assets\Scripts\Voxels\FlyingBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Voxels\BehaviourData.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Vehicles\Car\Scripts\CarUserControl.cs" />

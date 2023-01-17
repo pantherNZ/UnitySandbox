@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f84df468acb01b4f87ce302b84c4c1c, type: 3}
-  m_Name: CircleShapeData
+  m_Name: ChaosCircle
   m_EditorClassIdentifier: 
-  objectCount: 32
+  objectCount: 64
   speed: 2
   cubeScale: 1
   radius: 1.78
   matchCircleRotation: 0
   speedPerVoxel: 0
-  modifiers: 1
-  perVoxelExpand: 10
-  perVoxelHeight: 2
-  bounceHeight: 0
-  expandWidth: 0.5
+  modifiers: 15
+  perVoxelExpand: 104
+  perVoxelHeight: 12
+  bounceHeight: 1
+  expandWidth: 1

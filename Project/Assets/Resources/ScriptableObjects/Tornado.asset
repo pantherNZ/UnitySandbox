@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f84df468acb01b4f87ce302b84c4c1c, type: 3}
-  m_Name: CircleShapeData
+  m_Name: Tornado
   m_EditorClassIdentifier: 
-  objectCount: 32
-  speed: 2
+  objectCount: 84
+  speed: 0.8
   cubeScale: 1
-  radius: 1.78
+  radius: 2.9
   matchCircleRotation: 0
-  speedPerVoxel: 0
+  speedPerVoxel: 0.2
   modifiers: 1
-  perVoxelExpand: 10
+  perVoxelExpand: 7.032115
   perVoxelHeight: 2
-  bounceHeight: 0
-  expandWidth: 0.5
+  bounceHeight: 1.6366441
+  expandWidth: 1.342138

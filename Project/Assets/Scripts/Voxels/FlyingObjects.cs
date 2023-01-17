@@ -16,9 +16,8 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] float colourInterpSpeed = 1.0f;
     [SerializeField] Color baseColour = Color.white;
 
-    [Header( "Behaviour" )]
-    [SerializeField] BehaviourData currentBehaviourData;
-    BehaviourData _currentBehaviourData;
+    [HideInInspector]
+    public BehaviourData currentBehaviourData;
 
     [Header( "Explode" )]
     [SerializeField] float explosionForce = 10.0f;
@@ -27,10 +26,19 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] float explosionHeightScaleMin;
     [SerializeField] float explosionHeightScaleMax;
 
-    private float time;
-    private float inactiveTimer;
+    [Header( "Freeze" )]
+    [SerializeField] float freezeDurationSec = 1.0f;
+
+    [Flags]
+    enum Flags
+    {
+        NoInterp = 1,
+        Physics = 2,
+        Paused = 4,
+    }
+
+    private Flags flags;
     private float physicsTimestep;
-    private IEnumerator constuctionIterator;
 
     private readonly List<ObjectData> objects = new();
 
@@ -97,11 +105,13 @@ public class FlyingObjects : MonoBehaviour
             for( int i = 0; i < currentBehaviourData.ObjectCount; ++i )
                 ConstructCube();
         }
+
+        flags = 0;
     }
 
     public void Explode()
     {
-        if( inactiveTimer > 0.0f )
+        if( flags.HasFlag( Flags.Physics ) || flags.HasFlag( Flags.Paused ) )
             return;
 
         foreach( Transform child in transform )
@@ -111,8 +121,29 @@ public class FlyingObjects : MonoBehaviour
             var direction = UnityEngine.Random.insideUnitSphere.SetY( explosionHeightScaleMin + UnityEngine.Random.value * ( explosionHeightScaleMax - explosionHeightScaleMin ) );
             var force = explosionForce + ( UnityEngine.Random.value - 0.5f ) * explosionForceVariance;
             rb.AddForce( direction * force );
-            inactiveTimer = explodeDelaySec;
         }
+
+        flags |= Flags.Physics;
+        flags |= Flags.NoInterp;
+
+        this.CallWithDelay( explodeDelaySec, () =>
+        {
+            foreach( var child in objects )
+                SetPhysicsEnabled( child.obj, false );
+
+            flags &= ~Flags.Physics;
+            flags &= ~Flags.NoInterp;
+        } );
+    }
+
+    public void Freeze()
+    {
+        flags |= Flags.Paused;
+
+        this.CallWithDelay( freezeDurationSec, () =>
+        {
+            flags &= ~Flags.Paused;
+        } );
     }
 
     void Update()
@@ -171,7 +202,7 @@ public class FlyingObjects : MonoBehaviour
 
     void UpdateVoxels()
     {
-        if( inactiveTimer == 0.0f )
+        if( !flags.HasFlag( Flags.NoInterp ) && !flags.HasFlag( Flags.Paused ) )
         {
             currentBehaviourData.Process();
 
@@ -188,7 +219,7 @@ public class FlyingObjects : MonoBehaviour
     void UpdatePhysics()
     {
 #if UNITY_EDITOR
-        if( inactiveTimer > 0.0f && !Application.isPlaying )
+        if( !flags.HasFlag( Flags.Paused ) && flags.HasFlag( Flags.Physics ) && !Application.isPlaying )
         {
             physicsTimestep += Time.deltaTime;
 
@@ -201,15 +232,11 @@ public class FlyingObjects : MonoBehaviour
             }
         }
 #endif
+    }
 
-        if( inactiveTimer > 0.0f )
-        {
-            inactiveTimer = Mathf.Max( 0.0f, inactiveTimer - Time.deltaTime );
-
-            if( inactiveTimer == 0.0f )
-                foreach( var child in objects )
-                    SetPhysicsEnabled( child.obj, false );
-        }
+    public BehaviourData GetBehaviour()
+    {
+        return currentBehaviourData;
     }
 
     void OnDrawGizmos()
