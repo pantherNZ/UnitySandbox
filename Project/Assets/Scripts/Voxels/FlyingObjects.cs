@@ -16,8 +16,13 @@ public class FlyingObjects : MonoBehaviour
     [SerializeField] float colourInterpSpeed = 1.0f;
     [SerializeField] Color baseColour = Color.white;
 
-    [HideInInspector]
-    public BehaviourData currentBehaviourData;
+    [HideInInspector] public bool randomBehaviour;
+    [HideInInspector] public BehaviourData currentBehaviourData;
+    BehaviourData previousBehaviourData;
+    [HideInInspector] public float behaviourInterpSpeed = 1.0f;
+    [HideInInspector] public float behaviourChangeTimeMin = 0.0f;
+    [HideInInspector] public float behaviourChangeTimeMax = 1.0f;
+    [HideInInspector] public List<BehaviourData> allBehaviours;
 
     [Header( "Explode" )]
     [SerializeField] float explosionForce = 10.0f;
@@ -39,7 +44,7 @@ public class FlyingObjects : MonoBehaviour
 
     private Flags flags;
     private float physicsTimestep;
-
+    private float behaviourChangeTimer;
     private readonly List<ObjectData> objects = new();
 
     public class ObjectData
@@ -109,6 +114,11 @@ public class FlyingObjects : MonoBehaviour
         flags = 0;
     }
 
+    public void InitRandom()
+    {
+        behaviourChangeTimer = UnityEngine.Random.Range( behaviourChangeTimeMin, behaviourChangeTimeMax ); 
+    }
+
     public void Explode()
     {
         if( flags.HasFlag( Flags.Physics ) || flags.HasFlag( Flags.Paused ) )
@@ -170,6 +180,7 @@ public class FlyingObjects : MonoBehaviour
 
         UpdateVoxels();
         UpdatePhysics();
+        UpdateBehaviour();
     }
 
     void InterpolatePosition( ObjectData obj, int idx )
@@ -232,6 +243,25 @@ public class FlyingObjects : MonoBehaviour
             }
         }
 #endif
+    }
+
+    void UpdateBehaviour()
+    {
+        if( randomBehaviour )
+        {
+            behaviourChangeTimer -= Time.deltaTime;
+
+            if( behaviourChangeTimer <= 0.0f )
+            {
+                InitRandom();
+
+                var prevBehaviour = currentBehaviourData;
+                while( currentBehaviourData == prevBehaviour && allBehaviours.Count > 1 )
+                {
+                    currentBehaviourData = allBehaviours.RandomItem();
+                }
+            }
+        }
     }
 
     public BehaviourData GetBehaviour()

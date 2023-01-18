@@ -66,8 +66,8 @@ public class CircleShapeData : MathShapeData
     public override void ActivateModifier( MonoBehaviour obj, int idx, float durationSec )
     {
         Debug.Assert( idx < GetNumModifiers() );
-        modifiers |= ( Modifiers )idx;
-        obj.CallWithDelay( durationSec, () => modifiers &= ~( Modifiers )idx );
+        modifiers |= ( Modifiers )( 1 << idx );
+        obj.CallWithDelay( durationSec, () => modifiers &= ~( Modifiers )( 1 << idx ) );
     }
 
     public override void Process()
