@@ -29,12 +29,11 @@ public abstract class BehaviourData : ScriptableObject
     protected float timer;
 
     public virtual int ObjectCount => objectCount;
+    public virtual Enum Modifiers { get => null; set { } }
     public abstract Vector3 GetPosition( int idx );
     public virtual Color? GetColour( int idx ) { return null; }
     public virtual Quaternion GetRotation( int idx ) { return Quaternion.identity; }
-    public int GetNumModifiers() { var names = GetModifierNames(); return names == null ? 0 : names.Length; }
-    public virtual string[] GetModifierNames() { return null; }
-    public virtual void ActivateModifier( MonoBehaviour obj, int idx, float durationSec ) { }
+    public virtual void ActivateModifier( MonoBehaviour obj, Enum modifiers, float durationSec ) { }
     public virtual void Randomise()
     {
         objectCount = UnityEngine.Random.Range( 1, 128 );

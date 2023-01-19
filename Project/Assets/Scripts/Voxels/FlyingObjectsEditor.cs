@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
+using System;
 
 #if UNITY_EDITOR
 
@@ -9,8 +10,8 @@ using UnityEditorInternal;
 public class FlyingObjectsEditor : Editor
 {
     FlyingObjects obj;
-    int modifierIndex;
-    float modifierDurationSec;
+    Enum modifiersToTrigger;
+    float modifierTriggerDurationSec;
     ReorderableList behavioursList;
 
     SerializedProperty randomBehaviour;
@@ -109,15 +110,20 @@ public class FlyingObjectsEditor : Editor
 
             EditorGUILayout.Space( 10.0f );
 
-            var modifiers = obj.GetBehaviour().GetModifierNames();
+            var modifiers = obj.GetBehaviour().Modifiers;
 
-            if( modifiers != null && modifiers.Length > 0 )
+            if( modifiers != null )
             {
-                modifierDurationSec = EditorGUILayout.FloatField( "Modifier Duration (sec)", modifierDurationSec );
-                modifierIndex = EditorGUILayout.Popup( "Modifier Index", modifierIndex, modifiers );
+                if( modifiersToTrigger == null )
+                    modifiersToTrigger = ( Enum )Activator.CreateInstance( modifiers.GetType() );
+
+                modifiersToTrigger = EditorGUILayout.EnumFlagsField( "Modifiers To Trigger", modifiersToTrigger );
+                modifierTriggerDurationSec = EditorGUILayout.FloatField( "Trigger For Duration (sec)", modifierTriggerDurationSec );
 
                 if( GUILayout.Button( "Trigger Modifier" ) )
-                    obj.GetBehaviour().ActivateModifier( obj, modifierIndex, modifierDurationSec );
+                    obj.GetBehaviour().ActivateModifier( obj, modifiersToTrigger, modifierTriggerDurationSec );
+
+                //obj.GetBehaviour().Modifiers = modifiers;
             }
 
             EditorGUILayout.Space( 10.0f );

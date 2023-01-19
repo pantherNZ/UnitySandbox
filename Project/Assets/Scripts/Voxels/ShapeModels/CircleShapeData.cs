@@ -7,7 +7,7 @@ using UnityEngine;
 public class CircleShapeData : MathShapeData
 {
     [Flags]
-    public enum Modifiers
+    public enum ModifierTypes
     {
         Rotate = 1,
         Bounce = 2,
@@ -19,7 +19,7 @@ public class CircleShapeData : MathShapeData
     [SerializeField] float radius = 1.0f;
     [SerializeField] bool matchCircleRotation;
     [SerializeField] float speedPerVoxel;
-    [SerializeField] Modifiers modifiers;
+    [SerializeField] ModifierTypes modifiers;
 
     [Header( "Modifier Settings" )]
     [SerializeField] float perVoxelExpand = 2.0f;
@@ -29,26 +29,28 @@ public class CircleShapeData : MathShapeData
 
     float perVoxelTimer;
 
+    public override Enum Modifiers { get => modifiers; set => modifiers = ( ModifierTypes )value; }
+
     public override Vector3 GetPosition( int idx )
     {
         float polarIncrement = 2.0f * MathF.PI / objectCount;
         float polarAngle = polarIncrement * idx;
         
-        if( modifiers.HasFlag( Modifiers.Rotate ) )
-            polarAngle = ( polarIncrement + ( modifiers.HasFlag( Modifiers.PerVoxel ) ? perVoxelTimer : 0.0f ) ) * idx + timer;
+        if( modifiers.HasFlag( ModifierTypes.Rotate ) )
+            polarAngle = ( polarIncrement + ( modifiers.HasFlag( ModifierTypes.PerVoxel ) ? perVoxelTimer : 0.0f ) ) * idx + timer;
 
-        float expandOffset = modifiers.HasFlag( Modifiers.PerVoxel ) ? Mathf.PI * perVoxelExpand / objectCount * idx : 0.0f;
-        float extraRadius = modifiers.HasFlag( Modifiers.Expand ) ? expandWidth * Mathf.Sin( timer + expandOffset ) : 0.0f;
+        float expandOffset = modifiers.HasFlag( ModifierTypes.PerVoxel ) ? Mathf.PI * perVoxelExpand / objectCount * idx : 0.0f;
+        float extraRadius = modifiers.HasFlag( ModifierTypes.Expand ) ? expandWidth * Mathf.Sin( timer + expandOffset ) : 0.0f;
         float r = radius + extraRadius;
         var pos = new Vector3( r * MathF.Cos( polarAngle ), 0.0f, r * MathF.Sin( polarAngle ) );
 
-        if( modifiers.HasFlag( Modifiers.Bounce ) )
+        if( modifiers.HasFlag( ModifierTypes.Bounce ) )
         {
-            float heightOffset = modifiers.HasFlag( Modifiers.PerVoxel ) ? Mathf.PI * perVoxelHeight / objectCount * idx : 0.0f;
+            float heightOffset = modifiers.HasFlag( ModifierTypes.PerVoxel ) ? Mathf.PI * perVoxelHeight / objectCount * idx : 0.0f;
             pos.y += bounceHeight * Mathf.Sin( timer + heightOffset );
         }
 
-        if( modifiers.HasFlag( Modifiers.Vertical ) )
+        if( modifiers.HasFlag( ModifierTypes.Vertical ) )
             pos = new Vector3( pos.x, pos.z, pos.y );
 
         return pos;
@@ -61,20 +63,17 @@ public class CircleShapeData : MathShapeData
         return Quaternion.identity;
     }
 
-    public override string[] GetModifierNames() { return Enum.GetNames( typeof( Modifiers ) ); }
-
-    public override void ActivateModifier( MonoBehaviour obj, int idx, float durationSec )
+    public override void ActivateModifier( MonoBehaviour obj, Enum newModifiers, float durationSec )
     {
-        Debug.Assert( idx < GetNumModifiers() );
-        modifiers |= ( Modifiers )( 1 << idx );
-        obj.CallWithDelay( durationSec, () => modifiers &= ~( Modifiers )( 1 << idx ) );
+        modifiers |= ( ModifierTypes )newModifiers;
+        obj.CallWithDelay( durationSec, () => modifiers &= ~( ModifierTypes )( newModifiers ) );
     }
 
     public override void Process()
     {
         base.Process();
 
-        if( modifiers.HasFlag( Modifiers.PerVoxel ) )
+        if( modifiers.HasFlag( ModifierTypes.PerVoxel ) )
             perVoxelTimer += Time.deltaTime * speedPerVoxel;
     }
 

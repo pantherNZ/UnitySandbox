@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f84df468acb01b4f87ce302b84c4c1c, type: 3}
-  m_Name: Tornado
+  m_Name: New
   m_EditorClassIdentifier: 
-  objectCount: 84
-  speed: 0.99
+  objectCount: 7
+  speed: 4.455039
   cubeScale: 1
-  radius: 2.9
+  radius: 1.2370234
   matchCircleRotation: 0
-  speedPerVoxel: 0.1
-  modifiers: 13
-  perVoxelExpand: 0.16
-  perVoxelHeight: 2
-  bounceHeight: 1.6366441
-  expandWidth: -1.32
+  speedPerVoxel: 0
+  modifiers: 1
+  perVoxelExpand: 2
+  perVoxelHeight: 0
+  bounceHeight: 3.3218164
+  expandWidth: 1.5349352
