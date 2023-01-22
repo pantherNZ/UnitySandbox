@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New
   m_EditorClassIdentifier: 
   objectCount: 7
-  speed: 4.455039
+  speed: 1
   cubeScale: 1
   radius: 1.2370234
   matchCircleRotation: 0

@@ -186,6 +186,7 @@
     <Compile Include="Assets\Resources\Misc\StandardAssets\2D\Scripts\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Scripts\Tools\BasePlayerTool.cs" />
     <Compile Include="Assets\Resources\Misc\StandardAssets\Utility\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\Misc\MathFuncGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Misc\StandardAssets\Prototyping\Shaders\WorldCoordDiffuse.shader" />

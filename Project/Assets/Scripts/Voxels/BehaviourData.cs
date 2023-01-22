@@ -22,6 +22,19 @@ public enum TransitionType
 [Serializable]
 public abstract class BehaviourData : ScriptableObject
 {
+    [Flags]
+    public enum GenericModifierTypes
+    {
+        RotateX = 1,
+        RotateY = 1,
+        RotateZ = 1,
+        Bounce = 2,
+        Expand = 4,
+        PerVoxel = 8,
+        Vertical = 16,
+    }
+
+
     [Range(1,256)]
     [SerializeField] protected int objectCount = 10;
     [SerializeField] protected float speed;

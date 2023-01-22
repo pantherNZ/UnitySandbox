@@ -46,6 +46,8 @@ public class FlyingObjects : MonoBehaviour
     private float physicsTimestep;
     private float behaviourChangeTimer;
     private readonly List<ObjectData> objects = new();
+    private readonly MathFuncGenerator funcGenerator = new();
+    private int currentProcessingVoxel;
 
     public class ObjectData
     {
@@ -112,6 +114,13 @@ public class FlyingObjects : MonoBehaviour
         }
 
         flags = 0;
+
+        int maxDepth = 3;
+        funcGenerator.DefaultValues( -180.0f, 180.0f );
+        funcGenerator.AddConstantFunc( () => Time.fixedTime, () => $"GameTime ({Time.fixedTime})" );
+        funcGenerator.AddConstantFunc( () => currentProcessingVoxel, () => $"VoxelIdx ({currentProcessingVoxel})" );
+        funcGenerator.ConstructTree( maxDepth );
+        Debug.Log( $"Function: {funcGenerator.TreeToString()}" );
     }
 
     public void InitRandom()
@@ -183,11 +192,25 @@ public class FlyingObjects : MonoBehaviour
         UpdateBehaviour();
     }
 
-    void InterpolatePosition( ObjectData obj, int idx )
+    Vector3 GetVoxelPosition()
+    {
+        var pos = currentBehaviourData.GetPosition( currentProcessingVoxel );
+        pos = pos.RotateX( funcGenerator.EvaluateTree() );
+        //pos = pos.RotateX( Mathf.Sin( Time.fixedTime ) * Mathf.PI * Mathf.Rad2Deg );
+        //pos = pos.RotateY( Mathf.Sin( Time.fixedTime ) * Mathf.PI * Mathf.Rad2Deg );
+        //pos = pos.RotateZ( Mathf.Sin( Time.fixedTime ) * Mathf.PI * Mathf.Rad2Deg );
+        return pos;
+    }
+
+    void InterpolatePosition( ObjectData obj )
     {
         var transform = obj.obj.transform;
-        var desiredPos = currentBehaviourData.GetPosition( idx );
+        var desiredPos = GetVoxelPosition();
         var direction = desiredPos - transform.localPosition;
+
+        if( Mathf.Abs( direction.sqrMagnitude ) <= float.Epsilon )
+            return;
+
         var directionNorm = direction.normalized;
         var speed = direction.magnitude * positionInterpSpeed;
         var delta = Mathf.Min( 1.0f, Time.deltaTime * speed );
@@ -198,17 +221,17 @@ public class FlyingObjects : MonoBehaviour
             Mathf.Min( Mathf.Abs( direction.z ), Mathf.Abs( directionNorm.z ) * delta ) * Mathf.Sign( direction.z ) );
 
         transform.localPosition = interpPos;
-        transform.localRotation = Quaternion.Slerp( transform.localRotation, currentBehaviourData.GetRotation( idx ), Time.deltaTime * rotationInterpSpeed );
+        transform.localRotation = Quaternion.Slerp( transform.localRotation, currentBehaviourData.GetRotation( currentProcessingVoxel ), Time.deltaTime * rotationInterpSpeed );
     }
 
-    void InterpolateScale( ObjectData obj, int idx )
+    void InterpolateScale( ObjectData obj )
     {
         obj.obj.transform.localScale = Vector3.Lerp( obj.obj.transform.localScale, new Vector3().Set( cubeScale * currentBehaviourData.cubeScale ), Time.deltaTime * scaleInterpSpeed );
     }
 
-    void InterpolateColour( ObjectData obj, int idx )
+    void InterpolateColour( ObjectData obj )
     {
-        obj.renderer.sharedMaterial.color = Color.Lerp( obj.renderer.sharedMaterial.color, currentBehaviourData.GetColour( idx ) ?? baseColour, Time.deltaTime * colourInterpSpeed );
+        obj.renderer.sharedMaterial.color = Color.Lerp( obj.renderer.sharedMaterial.color, currentBehaviourData.GetColour( currentProcessingVoxel ) ?? baseColour, Time.deltaTime * colourInterpSpeed );
     }
 
     void UpdateVoxels()
@@ -219,10 +242,11 @@ public class FlyingObjects : MonoBehaviour
 
             for( int i = 0; i < objects.Count; ++i )
             {
+                currentProcessingVoxel = i;
                 var obj = objects[i];
-                InterpolatePosition( obj, i );
-                InterpolateScale( obj, i );
-                InterpolateColour( obj, i );
+                InterpolatePosition( obj );
+                InterpolateScale( obj );
+                InterpolateColour( obj );
             }
         }
     }
